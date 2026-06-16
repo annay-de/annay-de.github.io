@@ -109,29 +109,26 @@
   }
 
   function setupCursorGlow() {
-    const supportsFinePointer = window.matchMedia("(pointer: fine)").matches;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!supportsFinePointer || reducedMotion) return;
+    if (reducedMotion) return;
 
     let frame = 0;
     let nextX = window.innerWidth * 0.45;
     let nextY = window.innerHeight * 0.22;
+    const moveGlow = (event) => {
+      nextX = event.clientX;
+      nextY = event.clientY;
+      if (frame) return;
 
-    window.addEventListener(
-      "pointermove",
-      (event) => {
-        nextX = event.clientX;
-        nextY = event.clientY;
-        if (frame) return;
+      frame = window.requestAnimationFrame(() => {
+        body.style.setProperty("--cursor-x", `${nextX}px`);
+        body.style.setProperty("--cursor-y", `${nextY}px`);
+        frame = 0;
+      });
+    };
 
-        frame = window.requestAnimationFrame(() => {
-          body.style.setProperty("--cursor-x", `${nextX}px`);
-          body.style.setProperty("--cursor-y", `${nextY}px`);
-          frame = 0;
-        });
-      },
-      { passive: true }
-    );
+    window.addEventListener("pointermove", moveGlow, { passive: true });
+    window.addEventListener("mousemove", moveGlow, { passive: true });
   }
 
   setActiveNav();
