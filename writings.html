@@ -14,6 +14,15 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap">
   <link rel="stylesheet" href="style.css">
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem("annay-theme") === "dark") {
+          document.documentElement.dataset.theme = "dark";
+        }
+      } catch (error) {}
+    })();
+  </script>
 </head>
 <body data-page="writings">
   <nav class="site-nav" aria-label="Primary navigation">
@@ -31,6 +40,9 @@
         <a class="nav-link" data-nav="writings" href="writings.html"><span>Writings</span></a>
         <a class="nav-link" data-nav="projects" href="projects.html"><span>Projects</span></a>
         <a class="nav-link" data-nav="more" href="more.html"><span>More</span></a>
+        <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+          <span class="theme-toggle-core" aria-hidden="true"></span>
+        </button>
       </div>
     </div>
   </nav>

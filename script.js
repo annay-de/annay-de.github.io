@@ -4,6 +4,36 @@
   const navLinks = document.querySelectorAll("[data-nav]");
   const menuToggle = document.querySelector(".menu-toggle");
   const menu = document.querySelector(".nav-links");
+  const themeToggle = document.querySelector(".theme-toggle");
+
+  function getTheme() {
+    return document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+  }
+
+  function applyTheme(theme) {
+    const isDark = theme === "dark";
+    document.documentElement.dataset.theme = isDark ? "dark" : "";
+    if (!isDark) document.documentElement.removeAttribute("data-theme");
+
+    if (themeToggle) {
+      themeToggle.setAttribute("aria-pressed", String(isDark));
+      themeToggle.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
+    }
+  }
+
+  function setupTheme() {
+    applyTheme(getTheme());
+    if (!themeToggle) return;
+
+    themeToggle.addEventListener("click", () => {
+      const nextTheme = getTheme() === "dark" ? "light" : "dark";
+      applyTheme(nextTheme);
+      try {
+        localStorage.setItem("annay-theme", nextTheme);
+      } catch (error) {}
+      closeMenu();
+    });
+  }
 
   function setActiveNav() {
     const page = body.dataset.page;
@@ -105,6 +135,7 @@
   }
 
   setActiveNav();
+  setupTheme();
   setupMenu();
   setupReveal();
   setupCvFallback();
