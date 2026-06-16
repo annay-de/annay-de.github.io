@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projects | Annay De</title>
+  <meta name="description" content="Quantitative economics, applied ML, field research, and policy studies by Annay De.">
+  <meta property="og:title" content="Projects | Annay De">
+  <meta property="og:description" content="Applied ML, econometrics, field research, and policy studies.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/annay-de-portrait.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="projects">
+  <nav class="site-nav" aria-label="Primary navigation">
+    <div class="nav-inner">
+      <a class="monogram" href="index.html" aria-label="Annay De home">AD</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-menu" aria-label="Toggle navigation">
+        <span class="menu-toggle-line"></span>
+        <span class="menu-toggle-line"></span>
+        <span class="menu-toggle-line"></span>
+      </button>
+      <div class="nav-links" id="primary-menu">
+        <a class="nav-link" data-nav="home" href="index.html"><span>Home</span></a>
+        <a class="nav-link" data-nav="teaching" href="teaching.html"><span>Teaching</span></a>
+        <a class="nav-link" data-nav="cv" href="cv.html"><span>CV</span></a>
+        <a class="nav-link" data-nav="writings" href="writings.html"><span>Writings</span></a>
+        <a class="nav-link" data-nav="projects" href="projects.html"><span>Projects</span></a>
+        <a class="nav-link" data-nav="more" href="more.html"><span>More</span></a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="page-shell">
+    <header class="page-heading reveal">
+      <div>
+        <h1>Projects</h1>
+      </div>
+    </header>
+
+    <section id="quantitative-projects" class="content-section reveal">
+      <p class="section-label">Quantitative &amp; ML Projects</p>
+      <div class="card-grid">
+        <article class="project-card">
+          <div class="project-kicker">Econometrics &middot; 2026</div>
+          <h3>Decision under Uncertainty: Squad Allocation &amp; Match Simulation Engine</h3>
+          <p>ECO-6810, Computational Thinking &amp; AI for Economists, Ashoka University. Probabilistic ball-by-ball IPL simulation engine built on 278,205 deliveries (2008&ndash;2025) across 11 outcome classes. XGBoost model achieved log-loss of 1.7136 vs. empirical baseline of 1.8670 (~8.2% improvement). Deployed as a Streamlit app enabling analysts to simulate innings, compare XI combinations, and generate projected scorecards.</p>
+          <div class="method-list">
+            <span class="tag">XGBoost</span>
+            <span class="tag">Python</span>
+            <span class="tag">Streamlit</span>
+          </div>
+          <div class="link-row">
+            <a class="action-link" href="https://github.com/annay-de/Decision-under-uncertainty-ML-predictor" target="_blank" rel="noreferrer">GitHub</a>
+            <span class="action-link disabled">Live App</span>
+          </div>
+        </article>
+        <article class="project-card">
+          <div class="project-kicker">Forecasting &middot; 2026</div>
+          <h3>Forecasting India's GVA: Agriculture and Services Sectors</h3>
+          <p>ECO-3401, Data Analytics &amp; Machine Learning, Ashoka University. Dual forecasting pipeline using SARIMAX and an ML ensemble (XGBoost, LightGBM, Ridge; weighted 0.4:0.4:0.2) on 58 quarterly observations (FY2011&ndash;12 to FY2025&ndash;26). Implemented expanding-window cross-validation and Moving Block Bootstrap (1,000 trajectories). Ensemble CV MAPE: ~4.4% (agriculture), ~3.0% (services) &mdash; outperforming standalone SARIMAX on both sectors.</p>
+          <div class="method-list">
+            <span class="tag">Python</span>
+            <span class="tag">XGBoost</span>
+            <span class="tag">LightGBM</span>
+            <span class="tag">SARIMAX</span>
+          </div>
+          <div class="link-row"><span class="action-link disabled">GitHub</span></div>
+        </article>
+        <article class="project-card">
+          <div class="project-kicker">Econometrics &middot; 2026</div>
+          <h3>Contractualisation and Wage Differences in Indian Manufacturing</h3>
+          <p>ECO-5401, Econometrics, Ashoka University. Used firm-level ASI 2023&ndash;24 data (41,700+ observations) to test whether contractualisation suppresses wages in organised manufacturing. IV/2SLS estimation instrumenting firm-level contractualisation with peer-average contractualisation at the 5-digit NIC level. Found that a 1 percentage point rise in contractualisation reduced daily wages by Rs. 2.34 (significant at 1%); OLS underestimated this effect by ~42.8%.</p>
+          <div class="method-list">
+            <span class="tag">Stata</span>
+            <span class="tag">IV/2SLS</span>
+            <span class="tag">ASI Data</span>
+          </div>
+          <div class="link-row"><span class="action-link disabled">Working Paper</span></div>
+        </article>
+      </div>
+    </section>
+
+    <div class="matrix-divider"></div>
+
+    <section class="content-section reveal">
+      <p class="section-label">Field Research &amp; Policy Studies</p>
+      <div class="card-grid">
+        <article class="project-card">
+          <div class="project-kicker">Azad Foundation &amp; SABAR Institute &middot; 2024</div>
+          <h3>Access to Public Toilets for Women and Trans/Queer Persons in Kolkata</h3>
+          <p>One of Kolkata's largest gendered sanitation studies. 7,578 cis women and 38 trans/queer persons surveyed by 300+ trained student investigators from eight colleges and two universities. Key findings: 72% of women paid to access public toilets; 53% reported absent locks; 38% of trans/queer respondents reported harassment; 51% felt inadequate sanitation affected their ability to work and earn. Received extensive media coverage; contributed to policy discussions on gender-sensitive sanitation and women's labour-force participation.</p>
+          <div class="link-row"><span class="action-link disabled">Report</span></div>
+        </article>
+        <article class="project-card">
+          <div class="project-kicker">Know Your Neighbour &middot; 2025</div>
+          <h3>Migration Study in West Bengal</h3>
+          <p>Large-scale empirical study of out-migration based on 7,500+ household-level observations. Documented migrant profiles, destination choices, occupational mobility, remittance behaviour, and welfare access &mdash; addressing a major data gap on internal migration, particularly among economically vulnerable and minority households.</p>
+          <div class="link-row"><span class="action-link disabled">Report</span></div>
+        </article>
+        <article class="project-card">
+          <div class="project-kicker">Calcutta Research Group &amp; Know Your Neighbour &middot; 2025</div>
+          <h3>Continuing Persecution of Bengali-Speaking Migrant Workers</h3>
+          <p>Research and advocacy initiative documenting harassment, detention, and citizenship-related vulnerability of Bengali-speaking migrant workers across Indian states. Compiled field evidence, incident reports, and legal references. CRG&ndash;KYN press intervention received significant media and policy attention.</p>
+          <div class="link-row"><span class="action-link disabled">Report</span></div>
+        </article>
+        <article class="project-card">
+          <div class="project-kicker">Know Your Neighbour &amp; SABAR Institute &middot; 2025</div>
+          <h3>Status of Education in Metiabruz, Kolkata</h3>
+          <p>Neighbourhood-level education study based on 2,500+ observations covering enrolment, dropout risks, gendered constraints, and household expenditure on education in a marginalised urban minority locality. Produced actionable evidence for targeted scholarships and school-support programmes.</p>
+          <div class="link-row"><span class="action-link disabled">Report</span></div>
+        </article>
+        <article class="project-card">
+          <div class="project-kicker">SABAR Institute &middot; 2025</div>
+          <h3>Reading Habits in Middle Schoolers</h3>
+          <p>School-based study covering 4,300+ students examining non-curricular reading, library access, home reading environments, and screen exposure. Generated evidence for low-cost school interventions to strengthen reading culture and foundational literacy.</p>
+          <div class="link-row"><span class="action-link disabled">Report</span></div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <p class="footer-name">Annay De</p>
+          <p class="footer-role">PhD Scholar, Economics &middot; Ashoka University</p>
+        </div>
+        <div aria-hidden="true"></div>
+        <div class="footer-links">
+          <a href="https://www.linkedin.com/in/annayde" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a href="https://github.com/annay-de" target="_blank" rel="noreferrer">GitHub</a>
+          <span class="disabled">X / Twitter</span>
+        </div>
+      </div>
+      <div class="footer-bottom">annay.de.phd25@ashoka.edu.in &middot; Last updated May 2026 &middot; Static site.</div>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
