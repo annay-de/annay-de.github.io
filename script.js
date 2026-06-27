@@ -45,6 +45,20 @@
   function setNavState() {
     if (!nav) return;
     nav.classList.toggle("scrolled", window.scrollY > 8);
+    if (body.dataset.page !== "home") {
+      nav.classList.add("show-brand");
+      return;
+    }
+
+    const homeName = document.querySelector(".scholar-copy h1");
+    if (!homeName) {
+      nav.classList.add("show-brand");
+      return;
+    }
+
+    const navBottom = nav.getBoundingClientRect().bottom;
+    const nameBottom = homeName.getBoundingClientRect().bottom;
+    nav.classList.toggle("show-brand", nameBottom <= navBottom + 8);
   }
 
   function closeMenu() {
