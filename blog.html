@@ -1,12 +1,12 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Résumé | Annay De</title>
-  <meta name="description" content="Curriculum Vitae of Annay De, PhD scholar in Economics at Ashoka University.">
-  <meta property="og:title" content="Résumé | Annay De">
-  <meta property="og:description" content="Academic résumé of Annay De.">
+  <title>Annay's Blog | Annay De</title>
+  <meta name="description" content="Notes on economics, data, research in progress, and everything in between, by Annay De.">
+  <meta property="og:title" content="Annay's Blog | Annay De">
+  <meta property="og:description" content="Notes on economics, data, research in progress, and everything in between.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/annay-de-portrait.jpg">
   <link rel="stylesheet" href="style.css">
@@ -20,7 +20,8 @@
     })();
   </script>
 </head>
-<body data-page="cv">
+<body data-page="blog">
+  <div class="read-progress" aria-hidden="true"><span></span></div>
   <nav class="site-nav" aria-label="Primary navigation">
     <div class="nav-inner">
       <a class="monogram" href="index.html" aria-label="Annay De home">
@@ -47,17 +48,29 @@
     </div>
   </nav>
 
-  <main class="page-shell">
-    <header class="page-heading reveal">
+  <main class="page-shell" id="blog-shell">
+    <header class="page-heading reveal" id="blog-heading">
       <div>
-        <h1>Résumé</h1>
+        <h1>Annay's Blog</h1>
+        <p class="page-intro">Notes on economics, data, research in progress, and everything in between.</p>
       </div>
     </header>
 
-    <section class="cv-embed-wrapper reveal">
-      <iframe class="cv-frame" src="https://drive.google.com/file/d/1eJYuDtxJjP6vvHT2pAY1KyKwunM-Mu-L/preview" width="100%" height="900" frameborder="0" allow="autoplay" title="Annay De curriculum vitae preview"></iframe>
-      <p class="cv-fallback" hidden>The public curriculum vitae preview is pending. Once the Google Drive file is shared, the embedded preview will appear here.</p>
+    <section class="content-section reveal" id="blog-index" aria-live="polite">
+      <p class="blog-status">Loading posts…</p>
     </section>
+
+    <article class="blog-post" id="blog-post" hidden>
+      <a class="text-link back-link" href="blog.html">&larr; All posts</a>
+      <header class="post-header">
+        <div class="publication-meta" id="post-meta"></div>
+        <h1 id="post-title"></h1>
+      </header>
+      <div class="post-body" id="post-body"></div>
+      <footer class="post-footer">
+        <a class="text-link" href="blog.html">&larr; Back to all posts</a>
+      </footer>
+    </article>
   </main>
 
   <footer class="site-footer">
@@ -70,6 +83,8 @@
       <div class="footer-bottom"><strong>annay.de_phd25@ashoka.edu.in</strong> - Last updated May 2026</div>
     </div>
   </footer>
+  <script src="markdown.js"></script>
+  <script src="blog.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
