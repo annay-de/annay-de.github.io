@@ -1,0 +1,12 @@
+{
+  "posts": [
+    {
+      "slug": "hello-world",
+      "title": "Hello, world",
+      "date": "2026-07-22",
+      "tags": ["meta"],
+      "summary": "A first note to mark the opening of this blog. Longer writing on economics, data, and everything in between will live here.",
+      "content": "This is the first post on the blog, mostly here to hold the door open.\n\nI plan to use this space for longer, looser writing than the rest of the site allows: notes on ongoing research, things I am reading, data curiosities, and the occasional detour into cricket analytics.\n\nMore soon."
+    }
+  ]
+}

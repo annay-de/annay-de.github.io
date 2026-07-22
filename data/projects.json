@@ -1,0 +1,66 @@
+{
+  "sections": [
+    {
+      "id": "quantitative-projects",
+      "title": "Quantitative and machine learning research",
+      "items": [
+        {
+          "kicker": "For Eco-6810, Computational Thinking and Artificial Intelligence for Economists, Ashoka University",
+          "title": "Decision under Uncertainty: Squad Allocation and Match Simulation Engine",
+          "description": "Probabilistic ball-by-ball Indian Premier League simulation engine trained on 288,051 deliveries across 1,212 matches from 2008 to 2026 and 11 outcome classes. Its modern-profile XGBoost model achieved 1.8293 log-loss versus a 1.8767 empirical baseline, about a 2.5% improvement. The Streamlit app supports recency-weighted and lifetime modes, venue and matchup calibration, batting-position effectiveness, phase-aware bowling allocation, repeated simulations, and complete projected scorecards for comparing alternative elevens.",
+          "links": [
+            { "label": "Website", "url": "https://cricpredai.streamlit.app/" }
+          ]
+        },
+        {
+          "kicker": "For Eco-3401, Data Analytics and Machine Learning, Ashoka University",
+          "title": "Forecasting India's Gross Value Added: Agriculture and Services Sectors",
+          "description": "Dual forecasting pipeline using Sarimax and a machine learning ensemble with XGBoost, LightGBM, and Ridge, weighted 0.4:0.4:0.2, on 58 quarterly observations from financial year 2011-12 to 2025-26. Implemented expanding-window cross-validation and Moving Block Bootstrap with 1,000 trajectories. Ensemble cross-validation mean absolute percentage error was about 4.4% for agriculture and 3.0% for services, outperforming standalone Sarimax on both sectors.",
+          "links": []
+        },
+        {
+          "kicker": "For Eco-5401, Econometrics, Ashoka University",
+          "title": "Contractualisation and Wage Differences in Indian Manufacturing",
+          "description": "Used firm-level Annual Survey of Industries 2023-24 data with more than 41,700 observations to test whether contractualisation suppresses wages in organised manufacturing. Instrumental variable and two-stage least squares estimation instrumented firm-level contractualisation with peer-average contractualisation at the 5-digit industrial classification level. A 1 percentage point rise in contractualisation reduced daily wages by Rs. 2.34, significant at 1%; ordinary least squares underestimated this effect by about 42.8%.",
+          "links": []
+        }
+      ]
+    },
+    {
+      "id": "field-research",
+      "title": "Field research and policy studies",
+      "items": [
+        {
+          "kicker": "With Azad Foundation and Sabar Institute · 2024",
+          "title": "Access to Public Toilets for Women and Trans/Queer Persons in Kolkata",
+          "description": "One of Kolkata's largest gendered sanitation studies. 7,578 cis women and 38 trans/queer persons were surveyed by more than 300 trained student investigators from eight colleges and two universities. Key findings: 72% of women paid to access public toilets; 53% reported absent locks; 38% of trans/queer respondents reported harassment; 51% felt inadequate sanitation affected their ability to work and earn. The study received extensive media coverage and contributed to policy discussions on gender-sensitive sanitation and women's labour-force participation.",
+          "links": []
+        },
+        {
+          "kicker": "Know Your Neighbour · 2025",
+          "title": "Migration Study in West Bengal",
+          "description": "Large-scale empirical study of out-migration based on more than 7,500 household-level observations. Documented migrant profiles, destination choices, occupational mobility, remittance behaviour, and welfare access, addressing a major data gap on internal migration, particularly among economically vulnerable and minority households.",
+          "links": []
+        },
+        {
+          "kicker": "Calcutta Research Group and Know Your Neighbour · 2025",
+          "title": "Continuing Persecution of Bengali-Speaking Migrant Workers",
+          "description": "Research and advocacy initiative documenting harassment, detention, and citizenship-related vulnerability of Bengali-speaking migrant workers across Indian states. Compiled field evidence, incident reports, and legal references. The press intervention received significant media and policy attention.",
+          "links": []
+        },
+        {
+          "kicker": "Know Your Neighbour and Sabar Institute · 2025",
+          "title": "Status of Education in Metiabruz, Kolkata",
+          "description": "Neighbourhood-level education study based on more than 2,500 observations covering enrolment, dropout risks, gendered constraints, and household expenditure on education in a marginalised urban minority locality. Produced actionable evidence for targeted scholarships and school-support programmes.",
+          "links": []
+        },
+        {
+          "kicker": "Sabar Institute · 2025",
+          "title": "Reading Habits in Middle Schoolers",
+          "description": "School-based study covering more than 4,300 students examining non-curricular reading, library access, home reading environments, and screen exposure. Generated evidence for low-cost school interventions to strengthen reading culture and foundational literacy.",
+          "links": []
+        }
+      ]
+    }
+  ]
+}

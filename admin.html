@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin | Annay De</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem("annay-theme") === "dark") {
+          document.documentElement.dataset.theme = "dark";
+        }
+      } catch (error) {}
+    })();
+  </script>
+</head>
+<body data-page="admin">
+  <nav class="site-nav" aria-label="Primary navigation">
+    <div class="nav-inner">
+      <a class="monogram show-brand" href="index.html" aria-label="Annay De home">
+        <span class="nav-name">Annay De</span>
+        <span class="nav-caption">Admin</span>
+      </a>
+      <div class="nav-links admin-nav-links">
+        <a class="nav-link" href="index.html"><span>View site</span></a>
+        <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+          <span class="theme-toggle-core" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="page-shell admin-shell">
+    <!-- Login -->
+    <section class="admin-login reveal visible" id="admin-login">
+      <header class="page-heading">
+        <div>
+          <h1>Admin</h1>
+          <p class="page-intro">Sign in with a GitHub access token to write posts and update the site. Changes are committed straight to the repository and go live once GitHub Pages rebuilds.</p>
+        </div>
+      </header>
+      <form class="admin-card" id="login-form">
+        <label class="field">
+          <span class="field-label">GitHub access token</span>
+          <input type="password" id="token-input" autocomplete="off" spellcheck="false" placeholder="github_pat_…" required>
+        </label>
+        <label class="check-field">
+          <input type="checkbox" id="remember-check">
+          <span>Keep me signed in on this device</span>
+        </label>
+        <div class="admin-actions">
+          <button class="btn primary" type="submit" id="login-button">Sign in</button>
+          <span class="admin-status" id="login-status" role="status"></span>
+        </div>
+        <details class="admin-help">
+          <summary>How do I get a token?</summary>
+          <ol>
+            <li>On GitHub go to <em>Settings &rarr; Developer settings &rarr; Personal access tokens &rarr; Fine-grained tokens</em>.</li>
+            <li>Create a token scoped to only this site&rsquo;s repository.</li>
+            <li>Under repository permissions, give <strong>Contents</strong> read and write access. Nothing else is needed.</li>
+            <li>Paste the token above. It is only stored in this browser and only ever sent to api.github.com.</li>
+          </ol>
+        </details>
+      </form>
+    </section>
+
+    <!-- App -->
+    <section class="admin-app" id="admin-app" hidden>
+      <header class="admin-topbar">
+        <div>
+          <h1>Admin</h1>
+          <p class="admin-signed" id="admin-signed"></p>
+        </div>
+        <button class="btn ghost" type="button" id="logout-button">Sign out</button>
+      </header>
+
+      <div class="admin-tabs" role="tablist" aria-label="Admin sections">
+        <button class="admin-tab active" type="button" role="tab" data-tab="posts" aria-selected="true">Blog posts</button>
+        <button class="admin-tab" type="button" role="tab" data-tab="projects" aria-selected="false">Research</button>
+        <button class="admin-tab" type="button" role="tab" data-tab="endeavours" aria-selected="false">Endeavours</button>
+      </div>
+
+      <div class="admin-panel" id="panel-posts" role="tabpanel"></div>
+      <div class="admin-panel" id="panel-projects" role="tabpanel" hidden></div>
+      <div class="admin-panel" id="panel-endeavours" role="tabpanel" hidden></div>
+
+      <div class="admin-statusbar" id="admin-statusbar" role="status" hidden></div>
+    </section>
+  </main>
+
+  <script src="markdown.js"></script>
+  <script src="admin.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
