@@ -1,6 +1,12 @@
 (function () {
-  const REPO_OWNER = "annay-de";
-  const REPO_NAME = "annay.de";
+  /* The repository the admin commits to. When the site is served from a
+     *.github.io domain (a GitHub Pages user site), the repository is derived
+     from the hostname — e.g. annay-de.github.io serves the repo of the same
+     name. The fallback covers local previews and any custom domain. */
+  const host = window.location.hostname;
+  const isUserSite = /\.github\.io$/.test(host);
+  const REPO_OWNER = isUserSite ? host.split(".")[0] : "annay-de";
+  const REPO_NAME = isUserSite ? host : "annay.de";
   const API_ROOT = "https://api.github.com";
   const TOKEN_KEY = "annay-admin-token";
 
