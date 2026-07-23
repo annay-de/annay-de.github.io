@@ -1,0 +1,250 @@
+{
+  "projects": {
+    "title": "Research",
+    "sections": [
+      {
+        "title": "Quantitative and machine learning research",
+        "items": [
+          {
+            "kicker": "For Eco-6810, Computational Thinking and Artificial Intelligence for Economists, Ashoka University",
+            "title": "Decision under Uncertainty: Squad Allocation and Match Simulation Engine",
+            "text": "Probabilistic ball-by-ball Indian Premier League simulation engine trained on 288,051 deliveries across 1,212 matches from 2008 to 2026 and 11 outcome classes. Its modern-profile XGBoost model achieved 1.8293 log-loss versus a 1.8767 empirical baseline, about a 2.5% improvement. The Streamlit app supports recency-weighted and lifetime modes, venue and matchup calibration, batting-position effectiveness, phase-aware bowling allocation, repeated simulations, and complete projected scorecards for comparing alternative elevens.",
+            "links": [{ "label": "Website", "url": "https://cricpredai.streamlit.app/" }]
+          },
+          {
+            "kicker": "For Eco-3401, Data Analytics and Machine Learning, Ashoka University",
+            "title": "Forecasting India's Gross Value Added: Agriculture and Services Sectors",
+            "text": "Dual forecasting pipeline using Sarimax and a machine learning ensemble with XGBoost, LightGBM, and Ridge, weighted 0.4:0.4:0.2, on 58 quarterly observations from financial year 2011-12 to 2025-26. Implemented expanding-window cross-validation and Moving Block Bootstrap with 1,000 trajectories. Ensemble cross-validation mean absolute percentage error was about 4.4% for agriculture and 3.0% for services, outperforming standalone Sarimax on both sectors.",
+            "links": []
+          },
+          {
+            "kicker": "For Eco-5401, Econometrics, Ashoka University",
+            "title": "Contractualisation and Wage Differences in Indian Manufacturing",
+            "text": "Used firm-level Annual Survey of Industries 2023-24 data with more than 41,700 observations to test whether contractualisation suppresses wages in organised manufacturing. Instrumental variable and two-stage least squares estimation instrumented firm-level contractualisation with peer-average contractualisation at the 5-digit industrial classification level. A 1 percentage point rise in contractualisation reduced daily wages by Rs. 2.34, significant at 1%; ordinary least squares underestimated this effect by about 42.8%.",
+            "links": []
+          }
+        ]
+      },
+      {
+        "title": "Field research and policy studies",
+        "items": [
+          {
+            "kicker": "With Azad Foundation and Sabar Institute · 2024",
+            "title": "Access to Public Toilets for Women and Trans/Queer Persons in Kolkata",
+            "text": "One of Kolkata's largest gendered sanitation studies. 7,578 cis women and 38 trans/queer persons were surveyed by more than 300 trained student investigators from eight colleges and two universities. Key findings: 72% of women paid to access public toilets; 53% reported absent locks; 38% of trans/queer respondents reported harassment; 51% felt inadequate sanitation affected their ability to work and earn. The study received extensive media coverage and contributed to policy discussions on gender-sensitive sanitation and women's labour-force participation.",
+            "links": []
+          },
+          {
+            "kicker": "Know Your Neighbour · 2025",
+            "title": "Migration Study in West Bengal",
+            "text": "Large-scale empirical study of out-migration based on more than 7,500 household-level observations. Documented migrant profiles, destination choices, occupational mobility, remittance behaviour, and welfare access, addressing a major data gap on internal migration, particularly among economically vulnerable and minority households.",
+            "links": []
+          },
+          {
+            "kicker": "Calcutta Research Group and Know Your Neighbour · 2025",
+            "title": "Continuing Persecution of Bengali-Speaking Migrant Workers",
+            "text": "Research and advocacy initiative documenting harassment, detention, and citizenship-related vulnerability of Bengali-speaking migrant workers across Indian states. Compiled field evidence, incident reports, and legal references. The press intervention received significant media and policy attention.",
+            "links": []
+          },
+          {
+            "kicker": "Know Your Neighbour and Sabar Institute · 2025",
+            "title": "Status of Education in Metiabruz, Kolkata",
+            "text": "Neighbourhood-level education study based on more than 2,500 observations covering enrolment, dropout risks, gendered constraints, and household expenditure on education in a marginalised urban minority locality. Produced actionable evidence for targeted scholarships and school-support programmes.",
+            "links": []
+          },
+          {
+            "kicker": "Sabar Institute · 2025",
+            "title": "Reading Habits in Middle Schoolers",
+            "text": "School-based study covering more than 4,300 students examining non-curricular reading, library access, home reading environments, and screen exposure. Generated evidence for low-cost school interventions to strengthen reading culture and foundational literacy.",
+            "links": []
+          }
+        ]
+      }
+    ]
+  },
+  "teaching": {
+    "title": "Teaching & Training",
+    "sections": [
+      {
+        "title": "Workshop instructor",
+        "items": [
+          {
+            "kicker": "Pratichi Institute · 2026",
+            "title": "Data Collection using Kobo Toolbox",
+            "links": [{ "label": "Slides & Materials", "url": "" }]
+          },
+          {
+            "kicker": "Sappho for Equality · 2026",
+            "title": "Data & Statistical Literacy, and Survey Design",
+            "links": [{ "label": "Slides", "url": "" }]
+          },
+          {
+            "kicker": "Deeniyat Muallima College · 2026",
+            "title": "Artificial Intelligence for Education: Towards Better Classrooms",
+            "links": [{ "label": "Slides", "url": "" }]
+          },
+          {
+            "kicker": "Sabar Institute · 2025",
+            "title": "Applied Data Collection and Handling Workshop",
+            "links": [{ "label": "Slides", "url": "" }]
+          },
+          {
+            "kicker": "Sabar Institute · 2025",
+            "title": "Graphic Design and Data Visualisation Workshop",
+            "links": [{ "label": "Slides", "url": "" }]
+          }
+        ]
+      },
+      {
+        "title": "Data acquisition and survey training facilitator",
+        "items": [
+          {
+            "title": "Access to Public Toilets Survey",
+            "meta": "Presidency University, Rabindra Bharati University, Gurudas College, Vivekananda College, Victoria Institution, Govt. Girls' General Degree College, Bethune College, Sarojini Naidu College, Sister Nivedita College, Shri Shikshayatan College · 2024"
+          },
+          {
+            "title": "Migration Study in West Bengal",
+            "meta": "Panskura Banamali College (Autonomous) · 2025"
+          },
+          {
+            "title": "Status of Education in Metiabruz",
+            "meta": "Matiaburj College · 2025"
+          },
+          {
+            "title": "Reading Habits in Middle Schoolers",
+            "meta": "Sarojini Naidu College for Women · 2025"
+          },
+          {
+            "title": "Police Constable Pre-Recruitment Training Survey",
+            "meta": "2024"
+          }
+        ]
+      }
+    ]
+  },
+  "writings": {
+    "title": "Writings & Publications",
+    "sections": [
+      {
+        "title": "Publications",
+        "items": [
+          {
+            "kicker": "With Dr Sajal Jana · Journal of Agricultural Development and Policy · Accepted / Forthcoming",
+            "title": "Instability and Growth Dynamics in West Bengal's Foodgrain Sector",
+            "links": [{ "label": "Link", "url": "" }]
+          },
+          {
+            "kicker": "The Extraordinaire, Volume 2 · Hult Prize, St. Xavier's College · 2025",
+            "title": "“Capitalocentrism Driven Gentrification: A Critique Through the Lens of Social Economics”",
+            "links": [{ "label": "Link", "url": "" }]
+          }
+        ]
+      },
+      {
+        "title": "Other writings",
+        "items": [
+          {
+            "kicker": "Asia in Global Affairs",
+            "title": "“The Great Asian Dilemma: Economic Boom or Environmental Doom”",
+            "links": [{ "label": "Link", "url": "https://www.asiainglobalaffairs.in/reflections/the-great-asian-dilemma-economic-boom-or-environmental-doom/" }]
+          },
+          {
+            "kicker": "Asia in Global Affairs",
+            "title": "“Asia's Tryst with the Female Labour Force: Indices, Geopolitics, Revolutions, and Developments”",
+            "links": [{ "label": "Link", "url": "https://www.asiainglobalaffairs.in/reflections/asias-tryst-with-the-female-labour-force-indices-geopolitics-revolutions-and-developments/" }]
+          },
+          {
+            "kicker": "Asia in Global Affairs",
+            "title": "“Beyond Lens & Beyond Borders: Oppenheimer and the Asian Narratives”",
+            "links": [{ "label": "Link", "url": "https://www.asiainglobalaffairs.in/reflections/beyond-lens-beyond-borders-oppenheimer-and-the-asian-narratives/" }]
+          },
+          {
+            "kicker": "Asia in Global Affairs",
+            "title": "“Entertainment is the New Oil and Asia is the Middle East”",
+            "links": [{ "label": "Link", "url": "https://www.asiainglobalaffairs.in/reflections/entertainment-is-the-new-oil-and-all-of-asia-is-the-middle-east/" }]
+          }
+        ]
+      },
+      {
+        "title": "Data enumeration handbook",
+        "items": [
+          {
+            "kicker": "Sabar Institute · 2025",
+            "title": "Kobo Toolbox Handbook: A Practical Guide for Survey Design, Data Collection, and Management",
+            "links": [{ "label": "Link", "url": "https://drive.google.com/file/d/1U2HcoF9sh7ehZCVmj8JUtHtH80ibXa8N/view" }]
+          }
+        ]
+      },
+      {
+        "title": "Media",
+        "items": [
+          {
+            "title": "The Hindu",
+            "text": "Quoted in *The Hindu* on funding constraints and neglect of heritage sites in Bengal and Sikkim."
+          },
+          {
+            "title": "The Telegraph",
+            "text": "Wrote in *The Telegraph* regarding the National Sample Survey data analysis using R workshop."
+          },
+          {
+            "title": "The Telegraph Edugraph",
+            "text": "Wrote in *The Telegraph Edugraph* regarding Ecomatrix, and was quoted regarding Econverge, Scottish Church College."
+          }
+        ]
+      }
+    ]
+  },
+  "more": {
+    "title": "More",
+    "sections": [
+      {
+        "title": "CricPredAI",
+        "items": [
+          {
+            "title": "Summer incubatee, Infoedge Centre for Entrepreneurship",
+            "text": "I have been selected as a summer incubatee for the Infoedge Centre for Entrepreneurship for Ashoka University's summer incubation programme, where I am developing my machine learning decision simulator around Indian Premier League teams: CricPredAI. Check it out, simulate, have fun, and send any feedback or criticism you might have.",
+            "links": [{ "label": "Open CricPredAI", "url": "https://cricpredai.streamlit.app/" }]
+          }
+        ]
+      },
+      {
+        "title": "Vibecoded logic games",
+        "items": [
+          {
+            "title": "Bridge",
+            "text": "Recently I have taken interest in vibecoding logic-based games.",
+            "links": [{ "label": "Play", "url": "https://bridge-table.onrender.com/" }]
+          },
+          {
+            "title": "Policy Simulator",
+            "text": "A logic-based policy simulator experiment.",
+            "links": [{ "label": "Link pending", "url": "" }]
+          }
+        ]
+      },
+      {
+        "title": "Quizzing and debate",
+        "items": [
+          {
+            "title": "Quizzing, debate, and academic competitions",
+            "text": "I have been extremely active in extracurricular activities with 35+ awards across quizzes, debates, research paper competitions, data analyses, case study competitions, and so on. Having been an avid quizzer for almost 15 years now, I have won awards representing my school, college, and university.\n\nI was the founder and secretary of the quiz club at my university, Dead Quizzers Society. I am also currently the president of the Quizzing Club at Ashoka University. I host regular quizzes.",
+            "links": [{ "label": "Quiz sets pending", "url": "" }]
+          }
+        ]
+      },
+      {
+        "title": "Professional memberships",
+        "items": [
+          {
+            "title": "Union for Radical Political Economics",
+            "meta": "Since 2025"
+          },
+          {
+            "title": "Association for Social Economics",
+            "meta": "Since 2025"
+          }
+        ]
+      }
+    ]
+  }
+}

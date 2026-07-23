@@ -6,23 +6,32 @@
   const host = window.location.hostname;
   const isUserSite = /\.github\.io$/.test(host);
   const REPO_OWNER = isUserSite ? host.split(".")[0] : "annay-de";
-  const REPO_NAME = isUserSite ? host : "annay.de";
+  const REPO_NAME = isUserSite ? host : "annay-de.github.io";
   const API_ROOT = "https://api.github.com";
   const TOKEN_KEY = "annay-admin-token";
+  const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 
   const FILES = {
     posts: "data/posts.json",
-    projects: "data/projects.json",
+    pages: "data/pages.json",
+    site: "data/site.json",
     endeavours: "data/endeavours.json"
   };
+
+  const PAGE_KEYS = [
+    { key: "projects", label: "Research" },
+    { key: "teaching", label: "Teaching" },
+    { key: "writings", label: "Writings" },
+    { key: "more", label: "More" }
+  ];
 
   const state = {
     token: null,
     branch: null,
     user: null,
-    data: { posts: null, projects: null, endeavours: null },
+    data: { posts: null, pages: null, site: null, endeavours: null },
     shas: {},
-    editingSlug: null
+    activePage: "projects"
   };
 
   const loginView = document.getElementById("admin-login");
@@ -47,6 +56,27 @@
     return node;
   }
 
+  function field(labelText, input) {
+    return el("label", { class: "field" }, [el("span", { class: "field-label", text: labelText }), input]);
+  }
+
+  function fieldRow(fields) {
+    return el("div", { class: "field-row" }, fields);
+  }
+
+  function textInput(value, placeholder, oninput) {
+    const input = el("input", { type: "text", value: value || "", placeholder: placeholder || "" });
+    if (oninput) input.addEventListener("input", () => oninput(input.value));
+    return input;
+  }
+
+  function textArea(value, rows, placeholder, oninput) {
+    const input = el("textarea", { rows: String(rows || 3), placeholder: placeholder || "" });
+    input.value = value || "";
+    if (oninput) input.addEventListener("input", () => oninput(input.value));
+    return input;
+  }
+
   function toBase64(text) {
     const bytes = new TextEncoder().encode(text);
     let binary = "";
@@ -67,7 +97,7 @@
     return String(text || "")
       .toLowerCase()
       .replace(/['’]/g, "")
-      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/[^a-z0-9.]+/g, "-")
       .replace(/^-+|-+$/g, "")
       .slice(0, 80);
   }
@@ -114,6 +144,13 @@
     return response.status === 204 ? null : response.json();
   }
 
+  function emptyDoc(key) {
+    if (key === "posts") return { posts: [] };
+    if (key === "pages") return {};
+    if (key === "site") return {};
+    return { items: [] };
+  }
+
   async function loadFile(key) {
     try {
       const file = await api(
@@ -124,7 +161,7 @@
     } catch (error) {
       if (error.status === 404) {
         state.shas[key] = null;
-        state.data[key] = key === "posts" ? { posts: [] } : key === "projects" ? { sections: [] } : { items: [] };
+        state.data[key] = emptyDoc(key);
       } else {
         throw error;
       }
@@ -163,6 +200,97 @@
     }
   }
 
+  function uploadImage(file) {
+    return new Promise((resolve, reject) => {
+      if (!file.type.startsWith("image/")) {
+        reject(new Error("Please choose an image file."));
+        return;
+      }
+      if (file.size > MAX_IMAGE_BYTES) {
+        reject(new Error("Image is larger than 5 MB. Please resize it first."));
+        return;
+      }
+      const reader = new FileReader();
+      reader.onerror = () => reject(new Error("Could not read the file."));
+      reader.onload = async () => {
+        try {
+          const base64 = String(reader.result).split(",")[1];
+          const stamp = today().replace(/-/g, "");
+          const path = "assets/uploads/" + stamp + "-" + (slugify(file.name) || "image");
+          await api("/repos/" + REPO_OWNER + "/" + REPO_NAME + "/contents/" + path, {
+            method: "PUT",
+            body: JSON.stringify({
+              message: "Upload image: " + file.name,
+              content: base64,
+              branch: state.branch
+            })
+          });
+          resolve(path);
+        } catch (error) {
+          if (error.status === 422) {
+            reject(new Error("A file with this name was already uploaded today. Rename the file and try again."));
+          } else {
+            reject(error);
+          }
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  /* Image picker: path input + upload button + thumbnail preview. */
+  function imageField(labelText, getValue, setValue) {
+    const input = textInput(getValue(), "assets/uploads/… or https://…", (value) => {
+      setValue(value.trim());
+      refresh();
+    });
+    const preview = el("img", { class: "image-preview", alt: "" });
+    const fileInput = el("input", { type: "file", accept: "image/*", hidden: "hidden" });
+
+    function refresh() {
+      const value = getValue();
+      preview.src = value || "";
+      preview.hidden = !value;
+    }
+
+    fileInput.addEventListener("change", async () => {
+      const file = fileInput.files && fileInput.files[0];
+      if (!file) return;
+      setStatus("Uploading image…", "info");
+      try {
+        const path = await uploadImage(file);
+        setValue(path);
+        input.value = path;
+        refresh();
+        setStatus("Image uploaded. Remember to save this tab to use it.", "ok");
+      } catch (error) {
+        setStatus("Upload failed: " + error.message, "error");
+      }
+      fileInput.value = "";
+    });
+
+    refresh();
+    return el("div", { class: "field image-picker" }, [
+      el("span", { class: "field-label", text: labelText }),
+      el("div", { class: "image-picker-row" }, [
+        input,
+        el("button", { class: "btn ghost", type: "button", text: "Upload", onclick: () => fileInput.click() }),
+        el("button", {
+          class: "btn ghost",
+          type: "button",
+          text: "Clear",
+          onclick: () => {
+            setValue("");
+            input.value = "";
+            refresh();
+          }
+        })
+      ]),
+      preview,
+      fileInput
+    ]);
+  }
+
   /* ---------- auth ---------- */
 
   async function signIn(token) {
@@ -177,7 +305,7 @@
     } catch (error) {
       state.user = null;
     }
-    await Promise.all([loadFile("posts"), loadFile("projects"), loadFile("endeavours")]);
+    await Promise.all([loadFile("posts"), loadFile("pages"), loadFile("site"), loadFile("endeavours")]);
   }
 
   function storedToken() {
@@ -208,8 +336,10 @@
     $("admin-signed").textContent =
       (state.user ? "Signed in as " + state.user + " · " : "") + "committing to " + REPO_OWNER + "/" + REPO_NAME + " (" + state.branch + ")";
     renderPostsPanel();
-    renderProjectsPanel();
+    renderPagesPanel();
+    renderHomePanel();
     renderEndeavoursPanel();
+    renderSitePanel();
   }
 
   /* ---------- posts panel ---------- */
@@ -245,12 +375,13 @@
                 text: "Delete",
                 onclick: async (event) => {
                   if (!window.confirm('Delete "' + post.title + '"? This commits immediately.')) return;
-                  state.data.posts.posts = state.data.posts.posts.filter((entry) => entry.slug !== post.slug);
+                  const previous = state.data.posts.posts;
+                  state.data.posts.posts = previous.filter((entry) => entry.slug !== post.slug);
                   try {
                     await commit("posts", "Delete blog post: " + post.title, event.currentTarget);
                     renderPostsPanel();
                   } catch (error) {
-                    state.data.posts.posts = posts;
+                    state.data.posts.posts = previous;
                   }
                 }
               })
@@ -263,10 +394,10 @@
   }
 
   function openPostEditor(slug) {
-    state.editingSlug = slug;
     const slot = $("post-editor-slot");
     slot.innerHTML = "";
     const existing = slug ? state.data.posts.posts.find((post) => post.slug === slug) : null;
+    const draft = { cover: existing ? existing.cover || "" : "" };
 
     const titleInput = el("input", { type: "text", value: existing ? existing.title : "", placeholder: "Post title" });
     const slugInput = el("input", { type: "text", value: existing ? existing.slug : "", placeholder: "url-slug (auto)" });
@@ -323,6 +454,7 @@
           date: dateInput.value || today(),
           tags: tagsInput.value.split(",").map((tag) => tag.trim()).filter(Boolean),
           summary: summaryInput.value.trim(),
+          cover: draft.cover,
           content: contentInput.value
         };
         const previous = state.data.posts.posts.slice();
@@ -346,6 +478,9 @@
         fieldRow([field("Title", titleInput), field("Slug", slugInput)]),
         fieldRow([field("Date", dateInput), field("Tags", tagsInput)]),
         field("Summary", summaryInput),
+        imageField("Cover photo (optional, shown faded behind the post title)", () => draft.cover, (value) => {
+          draft.cover = value;
+        }),
         field("Content", contentInput),
         preview,
         el("div", { class: "admin-actions" }, [
@@ -365,38 +500,56 @@
     slot.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 
-  function field(labelText, input) {
-    return el("label", { class: "field" }, [el("span", { class: "field-label", text: labelText }), input]);
-  }
+  /* ---------- pages panel (Research / Teaching / Writings / More) ---------- */
 
-  function fieldRow(fields) {
-    return el("div", { class: "field-row" }, fields);
-  }
-
-  /* ---------- projects panel ---------- */
-
-  function renderProjectsPanel() {
-    const panel = $("panel-projects");
+  function renderPagesPanel() {
+    const panel = $("panel-pages");
     panel.innerHTML = "";
-    const sections = state.data.projects.sections;
+
+    const switcher = el("div", { class: "admin-tabs sub-tabs" });
+    PAGE_KEYS.forEach((entry) => {
+      switcher.appendChild(
+        el("button", {
+          class: "admin-tab" + (state.activePage === entry.key ? " active" : ""),
+          type: "button",
+          text: entry.label,
+          onclick: () => {
+            state.activePage = entry.key;
+            renderPagesPanel();
+          }
+        })
+      );
+    });
+    panel.appendChild(switcher);
+
+    if (!state.data.pages[state.activePage]) {
+      state.data.pages[state.activePage] = { title: "", sections: [] };
+    }
+    const doc = state.data.pages[state.activePage];
+    doc.sections = doc.sections || [];
 
     panel.appendChild(
       el("p", {
         class: "panel-hint",
-        text: "Everything below renders on the Research page in this order. Links use one “Label | https://url” per line."
+        text: "Sections render on the page in this order. In text fields you can use **bold**, *italic*, and [label](https://url). Links use one “Label | https://url” per line; leave the URL empty to show a greyed-out pending link."
       })
     );
 
-    sections.forEach((section, sectionIndex) => {
-      const card = el("div", { class: "admin-card section-card" });
-      const titleInput = el("input", { type: "text", value: section.title || "" });
-      titleInput.addEventListener("input", () => {
-        section.title = titleInput.value;
-      });
-      card.appendChild(field("Section title", titleInput));
+    const titleInput = textInput(doc.title, "Page heading", (value) => {
+      doc.title = value;
+    });
+    panel.appendChild(el("div", { class: "admin-card slim-card" }, [field("Page heading (H1)", titleInput)]));
 
-      section.items.forEach((item, itemIndex) => {
-        card.appendChild(projectItemEditor(section, item, itemIndex));
+    doc.sections.forEach((section, sectionIndex) => {
+      const card = el("div", { class: "admin-card section-card" });
+      card.appendChild(
+        field("Section title", textInput(section.title, "", (value) => {
+          section.title = value;
+        }))
+      );
+
+      (section.items || []).forEach((item, itemIndex) => {
+        card.appendChild(pageItemEditor(section, item, itemIndex));
       });
 
       card.appendChild(
@@ -404,20 +557,33 @@
           el("button", {
             class: "btn ghost",
             type: "button",
-            text: "Add project",
+            text: "Add entry",
             onclick: () => {
-              section.items.push({ kicker: "", title: "", description: "", links: [] });
-              renderProjectsPanel();
+              section.items = section.items || [];
+              section.items.push({ kicker: "", title: "", text: "", meta: "", links: [] });
+              renderPagesPanel();
             }
           }),
+          sectionIndex > 0
+            ? el("button", {
+                class: "btn ghost",
+                type: "button",
+                text: "Move section up",
+                onclick: () => {
+                  const sections = doc.sections;
+                  [sections[sectionIndex - 1], sections[sectionIndex]] = [sections[sectionIndex], sections[sectionIndex - 1]];
+                  renderPagesPanel();
+                }
+              })
+            : null,
           el("button", {
             class: "btn ghost danger",
             type: "button",
             text: "Remove section",
             onclick: () => {
               if (!window.confirm('Remove the whole "' + (section.title || "untitled") + '" section? Remember to save after.')) return;
-              sections.splice(sectionIndex, 1);
-              renderProjectsPanel();
+              doc.sections.splice(sectionIndex, 1);
+              renderPagesPanel();
             }
           })
         ])
@@ -425,56 +591,36 @@
       panel.appendChild(card);
     });
 
-    const saveButton = el("button", {
-      class: "btn primary",
-      type: "button",
-      text: "Save research page",
-      onclick: (event) => commit("projects", "Update research projects", event.currentTarget).then(() => {}, () => {})
-    });
-
     panel.appendChild(
       el("div", { class: "admin-actions sticky-actions" }, [
-        saveButton,
+        el("button", {
+          class: "btn primary",
+          type: "button",
+          text: "Save this page",
+          onclick: (event) => {
+            const label = (PAGE_KEYS.find((entry) => entry.key === state.activePage) || {}).label || state.activePage;
+            commit("pages", "Update " + label + " page", event.currentTarget).then(() => {}, () => {});
+          }
+        }),
         el("button", {
           class: "btn ghost",
           type: "button",
           text: "Add section",
           onclick: () => {
-            sections.push({ id: "section-" + (sections.length + 1), title: "", items: [] });
-            renderProjectsPanel();
+            doc.sections.push({ title: "", items: [] });
+            renderPagesPanel();
           }
         })
       ])
     );
   }
 
-  function projectItemEditor(section, item, itemIndex) {
-    const kickerInput = el("input", { type: "text", value: item.kicker || "", placeholder: "Kicker, e.g. “With … · 2025”" });
-    const titleInput = el("input", { type: "text", value: item.title || "", placeholder: "Project title" });
-    const descriptionInput = el("textarea", { rows: "4", placeholder: "Project description" });
-    descriptionInput.value = item.description || "";
-    const linksInput = el("textarea", { rows: "2", class: "mono", placeholder: "Website | https://example.com" });
-    linksInput.value = (item.links || []).map((link) => link.label + " | " + link.url).join("\n");
-
-    kickerInput.addEventListener("input", () => (item.kicker = kickerInput.value));
-    titleInput.addEventListener("input", () => (item.title = titleInput.value));
-    descriptionInput.addEventListener("input", () => (item.description = descriptionInput.value));
-    linksInput.addEventListener("input", () => {
-      item.links = linksInput.value
-        .split("\n")
-        .map((line) => {
-          const split = line.split("|");
-          if (split.length < 2) return null;
-          const label = split[0].trim();
-          const url = split.slice(1).join("|").trim();
-          return label && url ? { label: label, url: url } : null;
-        })
-        .filter(Boolean);
-    });
+  function pageItemEditor(section, item, itemIndex) {
+    const linksValue = (item.links || []).map((link) => link.label + " | " + (link.url || "")).join("\n");
 
     return el("div", { class: "admin-subcard" }, [
       el("div", { class: "subcard-head" }, [
-        el("span", { class: "publication-meta", text: "Project " + (itemIndex + 1) }),
+        el("span", { class: "publication-meta", text: "Entry " + (itemIndex + 1) }),
         el("div", { class: "admin-row-actions" }, [
           itemIndex > 0
             ? el("button", {
@@ -485,7 +631,7 @@
                 onclick: () => {
                   const items = section.items;
                   [items[itemIndex - 1], items[itemIndex]] = [items[itemIndex], items[itemIndex - 1]];
-                  renderProjectsPanel();
+                  renderPagesPanel();
                 }
               })
             : null,
@@ -495,16 +641,159 @@
             text: "Remove",
             onclick: () => {
               section.items.splice(itemIndex, 1);
-              renderProjectsPanel();
+              renderPagesPanel();
             }
           })
         ])
       ]),
-      field("Kicker", kickerInput),
-      field("Title", titleInput),
-      field("Description", descriptionInput),
-      field("Links (Label | URL, one per line)", linksInput)
+      field("Kicker (small line above the title, optional)", textInput(item.kicker, "e.g. “With … · 2025”", (value) => {
+        item.kicker = value;
+      })),
+      field("Title", textInput(item.title, "Entry title", (value) => {
+        item.title = value;
+      })),
+      field("Text (optional; blank line starts a new paragraph)", textArea(item.text, 3, "", (value) => {
+        item.text = value;
+      })),
+      field("Meta line (small grey line below, optional)", textInput(item.meta, "e.g. “Since 2025”", (value) => {
+        item.meta = value;
+      })),
+      field("Links (Label | URL, one per line; empty URL = pending)", textArea(linksValue, 2, "Website | https://example.com", (value) => {
+        item.links = value
+          .split("\n")
+          .map((line) => {
+            if (!line.trim()) return null;
+            const split = line.split("|");
+            const label = split[0].trim();
+            const url = split.slice(1).join("|").trim();
+            return label ? { label: label, url: url } : null;
+          })
+          .filter(Boolean);
+      }))
     ]);
+  }
+
+  /* ---------- home panel ---------- */
+
+  function renderHomePanel() {
+    const panel = $("panel-home");
+    panel.innerHTML = "";
+    if (!state.data.site.home) state.data.site.home = {};
+    const home = state.data.site.home;
+    home.roles = home.roles || [];
+    home.portrait = home.portrait || {};
+
+    panel.appendChild(
+      el("p", { class: "panel-hint", text: "Everything on the homepage except the Current Endeavours list (which has its own tab)." })
+    );
+
+    const card = el("div", { class: "admin-card section-card" });
+    card.appendChild(field("Name / main heading", textInput(home.heading, "Annay De", (value) => {
+      home.heading = value;
+    })));
+
+    const rolesWrap = el("div", { class: "roles-editor" });
+    function renderRoles() {
+      rolesWrap.innerHTML = "";
+      home.roles.forEach((role, index) => {
+        rolesWrap.appendChild(
+          el("div", { class: "admin-subcard" }, [
+            el("div", { class: "subcard-head" }, [
+              el("span", { class: "publication-meta", text: "Role line " + (index + 1) }),
+              el("div", { class: "admin-row-actions" }, [
+                index > 0
+                  ? el("button", {
+                      class: "btn ghost",
+                      type: "button",
+                      text: "↑",
+                      "aria-label": "Move up",
+                      onclick: () => {
+                        [home.roles[index - 1], home.roles[index]] = [home.roles[index], home.roles[index - 1]];
+                        renderRoles();
+                      }
+                    })
+                  : null,
+                el("button", {
+                  class: "btn ghost danger",
+                  type: "button",
+                  text: "Remove",
+                  onclick: () => {
+                    home.roles.splice(index, 1);
+                    renderRoles();
+                  }
+                })
+              ])
+            ]),
+            fieldRow([
+              field("Plain text before the link", textInput(role.prefix, "Junior Research Fellow, ", (value) => {
+                role.prefix = value;
+              })),
+              field("Linked text", textInput(role.text, "Ashoka University", (value) => {
+                role.text = value;
+              }))
+            ]),
+            field("Link URL (empty = no link)", textInput(role.url, "https://…", (value) => {
+              role.url = value;
+            }))
+          ])
+        );
+      });
+    }
+    renderRoles();
+    card.appendChild(
+      el("div", { class: "field" }, [el("span", { class: "field-label", text: "Role lines under your name" }), rolesWrap])
+    );
+    card.appendChild(
+      el("div", { class: "admin-actions" }, [
+        el("button", {
+          class: "btn ghost",
+          type: "button",
+          text: "Add role line",
+          onclick: () => {
+            home.roles.push({ prefix: "", text: "", url: "" });
+            renderRoles();
+          }
+        })
+      ])
+    );
+
+    card.appendChild(
+      field(
+        "Bio (blank line starts a new paragraph; **bold**, *italic*, [label](url) work)",
+        textArea((home.bio || []).join("\n\n"), 6, "", (value) => {
+          home.bio = value.split(/\n\s*\n/).map((part) => part.trim()).filter(Boolean);
+        })
+      )
+    );
+
+    card.appendChild(imageField("Portrait photo", () => home.portrait.src || "", (value) => {
+      home.portrait.src = value;
+    }));
+    card.appendChild(
+      fieldRow([
+        field("Portrait caption", textInput(home.portrait.caption, "email or a short line", (value) => {
+          home.portrait.caption = value;
+        })),
+        field("Caption link (e.g. mailto:you@…)", textInput(home.portrait.captionUrl, "mailto:…", (value) => {
+          home.portrait.captionUrl = value;
+        }))
+      ])
+    );
+    card.appendChild(field("Endeavours section heading", textInput(home.endeavoursTitle, "Current Endeavours", (value) => {
+      home.endeavoursTitle = value;
+    })));
+
+    panel.appendChild(card);
+    panel.appendChild(
+      el("div", { class: "admin-actions sticky-actions" }, [
+        el("button", {
+          class: "btn primary",
+          type: "button",
+          text: "Save homepage",
+          onclick: (event) => commit("site", "Update homepage content", event.currentTarget).then(() => {}, () => {})
+        })
+      ])
+    );
   }
 
   /* ---------- endeavours panel ---------- */
@@ -583,11 +872,104 @@
     );
   }
 
+  /* ---------- site & footer panel ---------- */
+
+  function renderSitePanel() {
+    const panel = $("panel-site");
+    panel.innerHTML = "";
+    const site = state.data.site;
+    site.nav = site.nav || {};
+    site.nav.labels = site.nav.labels || {};
+    site.cv = site.cv || {};
+    site.footer = site.footer || {};
+    site.footer.social = site.footer.social || [
+      { label: "LinkedIn", url: "" },
+      { label: "GitHub", url: "" },
+      { label: "X / Twitter", url: "" }
+    ];
+
+    panel.appendChild(
+      el("p", { class: "panel-hint", text: "Navigation bar labels, the CV embed, and the footer, shared by every page." })
+    );
+
+    const navCard = el("div", { class: "admin-card section-card" });
+    navCard.appendChild(el("h3", { class: "editor-title", text: "Navigation bar" }));
+    navCard.appendChild(
+      fieldRow([
+        field("Brand name (top left)", textInput(site.nav.brand, "Annay De", (value) => {
+          site.nav.brand = value;
+        })),
+        field("Brand caption (used in page metadata)", textInput(site.nav.caption, "", (value) => {
+          site.nav.caption = value;
+        }))
+      ])
+    );
+    const labelDefs = [
+      ["home", "Home tab"],
+      ["teaching", "Teaching tab"],
+      ["cv", "CV tab"],
+      ["writings", "Writings tab"],
+      ["projects", "Research tab"],
+      ["blog", "Blog tab"],
+      ["more", "More tab"]
+    ];
+    for (let i = 0; i < labelDefs.length; i += 2) {
+      const pair = labelDefs.slice(i, i + 2).map(([key, label]) =>
+        field(label, textInput(site.nav.labels[key], "", (value) => {
+          site.nav.labels[key] = value;
+        }))
+      );
+      navCard.appendChild(pair.length === 2 ? fieldRow(pair) : pair[0]);
+    }
+    panel.appendChild(navCard);
+
+    const cvCard = el("div", { class: "admin-card section-card" });
+    cvCard.appendChild(el("h3", { class: "editor-title", text: "CV page" }));
+    cvCard.appendChild(
+      field("Google Drive embed URL (share the PDF, then use its /preview link)", textInput(site.cv.embedUrl, "https://drive.google.com/file/d/…/preview", (value) => {
+        site.cv.embedUrl = value;
+      }))
+    );
+    panel.appendChild(cvCard);
+
+    const footerCard = el("div", { class: "admin-card section-card" });
+    footerCard.appendChild(el("h3", { class: "editor-title", text: "Footer" }));
+    footerCard.appendChild(
+      fieldRow([
+        field("Email shown in the footer", textInput(site.footer.email, "", (value) => {
+          site.footer.email = value;
+        })),
+        field("Note after the email", textInput(site.footer.note, "Last updated …", (value) => {
+          site.footer.note = value;
+        }))
+      ])
+    );
+    site.footer.social.forEach((entry) => {
+      footerCard.appendChild(
+        field(entry.label + " URL (empty = greyed out)", textInput(entry.url, "https://…", (value) => {
+          entry.url = value;
+        }))
+      );
+    });
+    panel.appendChild(footerCard);
+
+    panel.appendChild(
+      el("div", { class: "admin-actions sticky-actions" }, [
+        el("button", {
+          class: "btn primary",
+          type: "button",
+          text: "Save site settings",
+          onclick: (event) => commit("site", "Update site settings", event.currentTarget).then(() => {}, () => {})
+        })
+      ])
+    );
+  }
+
   /* ---------- tabs + wiring ---------- */
 
-  document.querySelectorAll(".admin-tab").forEach((tab) => {
+  document.querySelectorAll(".admin-tabs:not(.sub-tabs) > .admin-tab").forEach((tab) => {
     tab.addEventListener("click", () => {
-      document.querySelectorAll(".admin-tab").forEach((other) => {
+      document.querySelectorAll(".admin-tabs:not(.sub-tabs) > .admin-tab").forEach((other) => {
         other.classList.toggle("active", other === tab);
         other.setAttribute("aria-selected", String(other === tab));
       });
