@@ -359,8 +359,10 @@
             }
             const caption = document.querySelector(".portrait-card figcaption");
             if (caption && home.portrait.caption) {
-              caption.innerHTML = home.portrait.captionUrl
-                ? '<a href="' + escapeHtml(home.portrait.captionUrl) + '">' + escapeHtml(home.portrait.caption) + "</a>"
+              const captionUrl = home.portrait.captionUrl || "";
+              const newTab = /^https?:/.test(captionUrl) ? ' target="_blank" rel="noreferrer"' : "";
+              caption.innerHTML = captionUrl
+                ? '<a href="' + escapeHtml(captionUrl) + '"' + newTab + ">" + escapeHtml(home.portrait.caption) + "</a>"
                 : escapeHtml(home.portrait.caption);
             }
           }
