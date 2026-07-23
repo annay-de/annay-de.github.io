@@ -1,7 +1,7 @@
 {
   "nav": {
     "brand": "Annay De",
-    "caption": "Economics and field research",
+    "caption": "",
     "labels": {
       "home": "Home",
       "teaching": "Teaching",
@@ -44,9 +44,18 @@
     "email": "annay.de_phd25@ashoka.edu.in",
     "note": "Last updated May 2026",
     "social": [
-      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/annayde" },
-      { "label": "GitHub", "url": "https://github.com/annay-de" },
-      { "label": "X / Twitter", "url": "" }
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/annayde"
+      },
+      {
+        "label": "GitHub",
+        "url": "https://github.com/annay-de"
+      },
+      {
+        "label": "X / Twitter",
+        "url": "https://x.com/AnnayDe_"
+      }
     ]
   }
 }
