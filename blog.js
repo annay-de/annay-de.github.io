@@ -46,13 +46,16 @@
           .map((tag) => '<span class="tag">' + escapeHtml(tag) + "</span>")
           .join("");
         html.push(
-          '<a class="blog-entry" href="blog.html?post=' + encodeURIComponent(post.slug) + '">' +
+          '<a class="blog-entry' + (post.cover ? " has-cover" : "") + '" href="blog.html?post=' + encodeURIComponent(post.slug) + '">' +
             '<time datetime="' + escapeHtml(post.date) + '">' + escapeHtml(formatDate(post.date)) + "</time>" +
             "<div>" +
               "<h3>" + escapeHtml(post.title) + '<span class="entry-arrow" aria-hidden="true">&rarr;</span></h3>' +
               (post.summary ? "<p>" + escapeHtml(post.summary) + "</p>" : "") +
               (tags ? '<div class="tag-grid">' + tags + "</div>" : "") +
             "</div>" +
+            (post.cover
+              ? '<span class="entry-thumb"><img src="' + escapeHtml(post.cover) + '" alt="" loading="lazy"></span>'
+              : "") +
           "</a>"
         );
       });
@@ -63,10 +66,19 @@
   }
 
   function renderPost(post) {
-    document.title = post.title + " | Annay's Blog | Annay De";
+    document.title = post.title + " | Blog | Annay De";
     headingEl.hidden = true;
     indexEl.hidden = true;
     postEl.hidden = false;
+
+    if (post.cover) {
+      const cover = document.createElement("div");
+      cover.className = "post-cover";
+      cover.setAttribute("aria-hidden", "true");
+      cover.innerHTML = '<img src="' + escapeHtml(post.cover) + '" alt="">';
+      postEl.insertBefore(cover, postEl.querySelector(".post-header"));
+      postEl.classList.add("has-cover");
+    }
 
     const meta = [formatDate(post.date)].concat(post.tags || []).filter(Boolean);
     document.getElementById("post-meta").textContent = meta.join(" · ");

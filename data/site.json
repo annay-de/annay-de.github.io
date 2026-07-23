@@ -1,0 +1,52 @@
+{
+  "nav": {
+    "brand": "Annay De",
+    "caption": "Economics and field research",
+    "labels": {
+      "home": "Home",
+      "teaching": "Teaching",
+      "cv": "Résumé",
+      "writings": "Writings/Publications",
+      "projects": "Research",
+      "blog": "Blog",
+      "more": "More"
+    }
+  },
+  "home": {
+    "heading": "Annay De",
+    "roles": [
+      {
+        "prefix": "Junior Research Fellow, ",
+        "text": "Ashoka University",
+        "url": "https://www.ashoka.edu.in/"
+      },
+      {
+        "prefix": "Research Assistant, ",
+        "text": "Centre for Social and Behaviour Change",
+        "url": "https://csbc.org.in/"
+      }
+    ],
+    "bio": [
+      "I am fascinated by how data and mathematics can be used to explain everything around us. I am interested in empirically exploring Development, Behavioural, Experimental, Political Economics, and understanding the theoretical and statistical methods developing Artificial Intelligence and Machine Learning."
+    ],
+    "endeavoursTitle": "Current Endeavours",
+    "portrait": {
+      "src": "assets/annay-de-portrait.jpg",
+      "alt": "Portrait of Annay De",
+      "caption": "annay.de_phd25@ashoka.edu.in",
+      "captionUrl": "mailto:annay.de_phd25@ashoka.edu.in"
+    }
+  },
+  "cv": {
+    "embedUrl": "https://drive.google.com/file/d/1eJYuDtxJjP6vvHT2pAY1KyKwunM-Mu-L/preview"
+  },
+  "footer": {
+    "email": "annay.de_phd25@ashoka.edu.in",
+    "note": "Last updated May 2026",
+    "social": [
+      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/annayde" },
+      { "label": "GitHub", "url": "https://github.com/annay-de" },
+      { "label": "X / Twitter", "url": "" }
+    ]
+  }
+}

@@ -204,53 +204,170 @@
       .catch(() => {});
   }
 
-  function hydrateProjects() {
-    if (body.dataset.page !== "projects") return;
-    const root = document.getElementById("projects-root");
+  /* Inline formatting for JSON-driven text: **bold**, *italic*, [label](url).
+     Input is escaped before any markup is applied. */
+  function formatInline(text) {
+    return escapeHtml(text)
+      .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*([^*]+)\*/g, "<em>$1</em>")
+      .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer">$1</a>');
+  }
+
+  function renderLinks(links) {
+    const row = (links || [])
+      .map((link) => {
+        if (!link.url) {
+          return '<span class="action-link disabled">' + escapeHtml(link.label) + "</span>";
+        }
+        const external = /^https?:/.test(link.url);
+        return (
+          '<a class="action-link" href="' + escapeHtml(link.url) + '"' +
+          (external ? ' target="_blank" rel="noreferrer"' : "") + ">" +
+          escapeHtml(link.label) +
+          (external ? '<span class="ext" aria-hidden="true">&#8599;</span>' : "") +
+          "</a>"
+        );
+      })
+      .join("");
+    return row ? '<div class="link-row">' + row + "</div>" : "";
+  }
+
+  function renderPageItem(item) {
+    const paragraphs = String(item.text || "")
+      .split(/\n\s*\n/)
+      .map((part) => part.trim())
+      .filter(Boolean)
+      .map((part) => "<p>" + formatInline(part) + "</p>")
+      .join("");
+    return (
+      '<article class="publication-item">' +
+      (item.kicker ? '<div class="publication-meta">' + formatInline(item.kicker) + "</div>" : "") +
+      "<h3>" + formatInline(item.title || "") + "</h3>" +
+      paragraphs +
+      (item.meta ? '<div class="list-meta">' + formatInline(item.meta) + "</div>" : "") +
+      renderLinks(item.links) +
+      "</article>"
+    );
+  }
+
+  function hydratePages() {
+    const page = body.dataset.page;
+    if (!["projects", "teaching", "writings", "more"].includes(page)) return;
+    const root = document.getElementById("page-sections");
     if (!root) return;
 
-    fetch("data/projects.json", { cache: "no-cache" })
+    fetch("data/pages.json", { cache: "no-cache" })
       .then((response) => (response.ok ? response.json() : null))
       .then((data) => {
-        if (!data || !Array.isArray(data.sections) || !data.sections.length) return;
-        root.innerHTML = data.sections
-          .map((section) => {
-            const items = (section.items || [])
-              .map((item) => {
-                const links = (item.links || [])
-                  .map(
-                    (link) =>
-                      '<a class="action-link" href="' + escapeHtml(link.url) + '" target="_blank" rel="noreferrer">' +
-                      escapeHtml(link.label) +
-                      '<span class="ext" aria-hidden="true">&#8599;</span></a>'
-                  )
-                  .join("");
-                return (
-                  '<article class="project-card">' +
-                  (item.kicker ? '<div class="project-kicker">' + escapeHtml(item.kicker) + "</div>" : "") +
-                  "<h3>" + escapeHtml(item.title) + "</h3>" +
-                  (item.description ? "<p>" + escapeHtml(item.description) + "</p>" : "") +
-                  (links ? '<div class="link-row">' + links + "</div>" : "") +
-                  "</article>"
-                );
-              })
-              .join("");
-            return (
-              '<section' + (section.id ? ' id="' + escapeHtml(section.id) + '"' : "") + ' class="content-section reveal">' +
-              '<h2 class="section-title">' + escapeHtml(section.title) + "</h2>" +
-              '<div class="plain-list">' + items + "</div>" +
+        const doc = data && data[page];
+        if (!doc || !Array.isArray(doc.sections) || !doc.sections.length) return;
+
+        const headingEl = document.querySelector(".page-heading h1");
+        if (headingEl && doc.title) headingEl.textContent = doc.title;
+
+        root.innerHTML = doc.sections
+          .map(
+            (section) =>
+              '<section class="content-section reveal">' +
+              '<h2 class="section-title">' + formatInline(section.title || "") + "</h2>" +
+              '<div class="plain-list">' + (section.items || []).map(renderPageItem).join("") + "</div>" +
               "</section>"
-            );
-          })
+          )
           .join("");
         observeReveals(root);
       })
       .catch(() => {});
   }
 
+  function hydrateSite() {
+    const page = body.dataset.page;
+    if (page === "admin") return;
+
+    fetch("data/site.json", { cache: "no-cache" })
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data) => {
+        if (!data) return;
+
+        if (data.nav) {
+          const brandEl = document.querySelector(".nav-name");
+          const captionEl = document.querySelector(".nav-caption");
+          if (brandEl && data.nav.brand) brandEl.textContent = data.nav.brand;
+          if (captionEl && data.nav.caption) captionEl.textContent = data.nav.caption;
+          if (data.nav.labels) {
+            document.querySelectorAll("[data-nav]").forEach((link) => {
+              const label = data.nav.labels[link.dataset.nav];
+              const span = link.querySelector("span");
+              if (label && span) span.textContent = label;
+            });
+          }
+        }
+
+        if (data.footer) {
+          const linksEl = document.querySelector(".footer-links");
+          if (linksEl && Array.isArray(data.footer.social)) {
+            linksEl.innerHTML = data.footer.social
+              .map((entry) => {
+                const label = escapeHtml(entry.label);
+                return entry.url
+                  ? '<a href="' + escapeHtml(entry.url) + '" target="_blank" rel="noreferrer" aria-label="' + label + '">' + label + "</a>"
+                  : '<span class="disabled" aria-label="' + label + '">' + label + "</span>";
+              })
+              .join("");
+          }
+          const bottomEl = document.querySelector(".footer-bottom");
+          if (bottomEl && data.footer.email) {
+            bottomEl.innerHTML =
+              "<strong>" + escapeHtml(data.footer.email) + "</strong>" +
+              (data.footer.note ? " - " + escapeHtml(data.footer.note) : "");
+            setupEmailCopy();
+          }
+        }
+
+        if (page === "home" && data.home) {
+          const home = data.home;
+          const copyEl = document.querySelector(".scholar-copy");
+          if (copyEl) {
+            const roles = (home.roles || [])
+              .map((role, index) => {
+                const linked = role.url
+                  ? '<a href="' + escapeHtml(role.url) + '" target="_blank" rel="noreferrer">' + escapeHtml(role.text) + "</a>"
+                  : escapeHtml(role.text || "");
+                return '<p class="name-line' + (index > 0 ? " secondary" : "") + '">' + escapeHtml(role.prefix || "") + linked + "</p>";
+              })
+              .join("");
+            const bio = (home.bio || []).map((part) => "<p>" + formatInline(part) + "</p>").join("");
+            copyEl.innerHTML = "<h1>" + escapeHtml(home.heading || "") + "</h1>" + roles + bio;
+          }
+          if (home.portrait) {
+            const img = document.querySelector(".portrait-card img");
+            if (img && home.portrait.src) {
+              img.src = home.portrait.src;
+              if (home.portrait.alt) img.alt = home.portrait.alt;
+            }
+            const caption = document.querySelector(".portrait-card figcaption");
+            if (caption && home.portrait.caption) {
+              caption.innerHTML = home.portrait.captionUrl
+                ? '<a href="' + escapeHtml(home.portrait.captionUrl) + '">' + escapeHtml(home.portrait.caption) + "</a>"
+                : escapeHtml(home.portrait.caption);
+            }
+          }
+          const workHeading = document.getElementById("current-work-heading");
+          if (workHeading && home.endeavoursTitle) workHeading.textContent = home.endeavoursTitle;
+        }
+
+        if (page === "cv" && data.cv && data.cv.embedUrl) {
+          const frame = document.querySelector(".cv-frame");
+          if (frame && frame.getAttribute("src") !== data.cv.embedUrl) {
+            frame.setAttribute("src", data.cv.embedUrl);
+          }
+        }
+      })
+      .catch(() => {});
+  }
+
   function setupEmailCopy() {
     const emailEl = document.querySelector(".footer-bottom strong");
-    if (!emailEl || !navigator.clipboard) return;
+    if (!emailEl || !navigator.clipboard || emailEl.classList.contains("copyable")) return;
 
     emailEl.classList.add("copyable");
     emailEl.setAttribute("role", "button");
@@ -286,7 +403,8 @@
   setupCvFallback();
   setupCursorGlow();
   hydrateEndeavours();
-  hydrateProjects();
+  hydratePages();
+  hydrateSite();
   setupEmailCopy();
   setNavState();
   window.addEventListener("scroll", setNavState, { passive: true });
