@@ -555,7 +555,7 @@
     panel.appendChild(
       el("p", {
         class: "panel-hint",
-        text: "Sections render on the page in this order. In text fields you can use **bold**, *italic*, and [label](https://url). Links use one “Label | https://url” per line; leave the URL empty to show a greyed-out pending link."
+        text: "Sections render on the page in this order. Link any phrase inside a text box with [words](https://url) — that also covers “Slides & Materials” as two separate links. The Button links box below each entry is only for the big standalone links (like a project Website); anything without a URL is left out."
       })
     );
 
@@ -682,7 +682,7 @@
       field("Meta line (small grey line below, optional)", textInput(item.meta, "e.g. “Since 2025”", (value) => {
         item.meta = value;
       })),
-      field("Links (Label | URL, one per line; empty URL = pending)", textArea(linksValue, 2, "Website | https://example.com", (value) => {
+      field("Button links (Label | URL, one per line — no URL = not shown)", textArea(linksValue, 2, "Website | https://example.com", (value) => {
         item.links = value
           .split("\n")
           .map((line) => {

@@ -3980,3 +3980,22 @@ html[data-theme="dark"] .scholar-copy h1 {
   font-size: 0.78rem;
   font-weight: 570;
 }
+
+.admin-global-tip {
+  margin: 0 0 1.6rem;
+  padding: 0.85rem 1.05rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  background: var(--accent-soft);
+  color: var(--text-soft);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.admin-global-tip code {
+  padding: 0.08em 0.4em;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.84em;
+}
