@@ -57,5 +57,9 @@
         "url": "https://x.com/AnnayDe_"
       }
     ]
+  },
+  "theme": {
+    "headingLight": "",
+    "headingDark": ""
   }
 }

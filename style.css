@@ -3687,3 +3687,249 @@ html[data-theme="dark"] .post-cover img {
 .roles-editor {
   display: grid;
 }
+
+/* ------------------------------------------------------------------ */
+/* Navbar v3: static top bar, sharp edges, underline + magnify hover   */
+/* ------------------------------------------------------------------ */
+
+.site-nav {
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: color-mix(in srgb, var(--bg) 90%, transparent);
+  box-shadow: none;
+  transform: none;
+  backdrop-filter: blur(18px) saturate(1.3);
+  -webkit-backdrop-filter: blur(18px) saturate(1.3);
+  overflow: visible;
+}
+
+.site-nav.scrolled {
+  background: color-mix(in srgb, var(--bg) 96%, transparent);
+  box-shadow: 0 8px 28px rgba(23, 23, 23, 0.05);
+}
+
+html[data-theme="dark"] .site-nav {
+  box-shadow: none;
+}
+
+html[data-theme="dark"] .site-nav.scrolled {
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.3);
+}
+
+.nav-inner {
+  width: min(100% - 3rem, 1180px);
+  height: 58px;
+  padding: 0;
+}
+
+.monogram .nav-name {
+  font-family: var(--font-ui);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--accent) 62%, var(--text));
+  transition: color 0.2s ease;
+}
+
+.monogram:hover .nav-name,
+.monogram:focus-visible .nav-name {
+  color: var(--accent);
+}
+
+.nav-links {
+  gap: 0.12rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.nav-link {
+  min-height: 40px;
+  padding: 0 0.62rem;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 650;
+}
+
+.nav-link:hover,
+.nav-link:focus-visible {
+  background: transparent;
+  color: var(--text);
+  transform: none;
+}
+
+.nav-link span {
+  display: inline-block;
+  transform-origin: 50% 100%;
+  transition: transform 0.3s var(--ease);
+}
+
+.nav-link:hover span,
+.nav-link:focus-visible span {
+  transform: scale(1.08);
+}
+
+.nav-link span::after {
+  display: block;
+  right: 0;
+  bottom: -5px;
+  left: 0;
+  height: 1.5px;
+  border-radius: 0;
+  background: var(--accent);
+  box-shadow: none;
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: 50% 50%;
+  transition: transform 0.34s var(--ease), opacity 0.2s ease;
+}
+
+.nav-link:hover span::after,
+.nav-link:focus-visible span::after,
+.nav-link.active span::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.nav-link.active {
+  color: var(--text);
+  background: var(--accent-soft);
+  border-radius: 6px;
+  box-shadow: none;
+}
+
+.theme-toggle {
+  border-radius: 8px;
+  overflow: visible;
+}
+
+.theme-toggle::after {
+  display: none;
+}
+
+.theme-toggle::before {
+  position: absolute;
+  top: calc(100% + 0.55rem);
+  right: 0;
+  z-index: 6;
+  padding: 0.28rem 0.66rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  box-shadow: var(--shadow-soft);
+  opacity: 0;
+  transform: translateY(3px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.26s var(--ease);
+  content: "Change theme";
+}
+
+.theme-toggle:hover::before,
+.theme-toggle:focus-visible::before {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.menu-toggle {
+  border-radius: 8px;
+}
+
+@media (max-width: 1100px) {
+  .nav-inner {
+    width: min(100% - 1.5rem, 1180px);
+  }
+
+  .nav-links {
+    top: calc(58px + 0.6rem);
+    right: 0.6rem;
+    left: 0.6rem;
+    padding: 0.5rem;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--surface);
+  }
+
+  .nav-link,
+  .nav-link.active {
+    min-height: 46px;
+    border-radius: 8px;
+  }
+
+  .theme-toggle {
+    width: 46px;
+    height: 46px;
+  }
+
+  .theme-toggle::before {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Heading colour: distinct from body text, admin-overridable          */
+/* ------------------------------------------------------------------ */
+
+:root {
+  --heading: color-mix(in srgb, var(--accent) 76%, #141a45);
+}
+
+html[data-theme="dark"] {
+  --heading: color-mix(in srgb, var(--accent) 74%, #f6f4ee);
+}
+
+.page-heading h1,
+.section-title,
+.scholar-copy h1,
+.current-work h2,
+.scholar-news h2,
+.post-header h1,
+.post-body h2,
+.post-body h3,
+.post-body h4,
+.admin-shell h1,
+.editor-title,
+#blog-index .year-group h3 {
+  color: var(--heading);
+}
+
+html[data-theme="dark"] .scholar-copy h1 {
+  color: var(--heading);
+}
+
+.color-field-row {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.color-field-row input[type="color"] {
+  width: 46px;
+  height: 34px;
+  padding: 2px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--bg);
+  cursor: pointer;
+}
+
+.color-status {
+  min-width: 4.6rem;
+  color: var(--muted);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+}
