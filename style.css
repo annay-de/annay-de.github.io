@@ -3723,7 +3723,7 @@ html[data-theme="dark"] .site-nav.scrolled {
 
 .nav-inner {
   width: min(100% - 3rem, 1180px);
-  height: 58px;
+  height: 50px;
   padding: 0;
 }
 
@@ -3855,7 +3855,7 @@ html[data-theme="dark"] .site-nav.scrolled {
   }
 
   .nav-links {
-    top: calc(58px + 0.6rem);
+    top: calc(50px + 0.6rem);
     right: 0.6rem;
     left: 0.6rem;
     padding: 0.5rem;
@@ -3950,7 +3950,7 @@ html[data-theme="dark"] .scholar-copy h1 {
   font-family: "Montserrat", var(--font-ui), sans-serif;
   font-size: 1.04rem;
   font-weight: 500;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.16em;
   text-transform: none;
 }
 
