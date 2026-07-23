@@ -3974,3 +3974,73 @@ html:not([data-theme="dark"]) .scholar-copy h1 {
 html[data-theme="dark"] .scholar-copy h1 {
   color: #f1dfbf;
 }
+
+.nav-link {
+  font-family: "Montserrat", var(--font-body), sans-serif;
+  font-size: 0.78rem;
+  font-weight: 570;
+}
+
+.admin-global-tip {
+  margin: 0 0 1.6rem;
+  padding: 0.85rem 1.05rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  background: var(--accent-soft);
+  color: var(--text-soft);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.admin-global-tip code {
+  padding: 0.08em 0.4em;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.84em;
+}
+
+/* ------------------------------------------------------------------ */
+/* Frosted-glass top bar (static, sharp edges, iOS/macOS style)        */
+/* ------------------------------------------------------------------ */
+
+.site-nav {
+  border-bottom: 1px solid var(--glass-border);
+  background: color-mix(in srgb, var(--bg) 60%, transparent);
+  box-shadow:
+    inset 0 1px 0 var(--glass-highlight),
+    0 8px 30px rgba(23, 23, 23, 0.06);
+  backdrop-filter: blur(30px) saturate(1.9);
+  -webkit-backdrop-filter: blur(30px) saturate(1.9);
+}
+
+.site-nav::after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(180deg, var(--glass-highlight), transparent 60%);
+  opacity: 0.5;
+  content: "";
+}
+
+.site-nav.scrolled {
+  background: color-mix(in srgb, var(--bg) 74%, transparent);
+  box-shadow:
+    inset 0 1px 0 var(--glass-highlight),
+    0 12px 40px rgba(23, 23, 23, 0.09);
+}
+
+html[data-theme="dark"] .site-nav {
+  background: color-mix(in srgb, var(--bg) 52%, transparent);
+  box-shadow:
+    inset 0 1px 0 var(--glass-highlight),
+    0 10px 34px rgba(0, 0, 0, 0.34);
+}
+
+html[data-theme="dark"] .site-nav.scrolled {
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+  box-shadow:
+    inset 0 1px 0 var(--glass-highlight),
+    0 14px 44px rgba(0, 0, 0, 0.42);
+}

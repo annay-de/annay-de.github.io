@@ -204,21 +204,26 @@
       .catch(() => {});
   }
 
-  /* Inline formatting for JSON-driven text: **bold**, *italic*, [label](url).
+  /* Inline formatting for JSON-driven text: **bold**, *italic*, and
+     [label](url) links (http/https/mailto). Works in every text field, so
+     any phrase anywhere can be linked, including two links in one line.
      Input is escaped before any markup is applied. */
   function formatInline(text) {
     return escapeHtml(text)
       .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
       .replace(/\*([^*]+)\*/g, "<em>$1</em>")
-      .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer">$1</a>');
+      .replace(/\[([^\]]+)\]\(((?:https?:\/\/|mailto:)[^\s)]+)\)/g, function (match, label, url) {
+        const newTab = /^https?:/.test(url) ? ' target="_blank" rel="noreferrer"' : "";
+        return '<a href="' + url + '"' + newTab + ">" + label + "</a>";
+      });
   }
 
+  /* Button-style links. Any entry without a URL is dropped entirely, so
+     nothing shows unless a real link was provided. */
   function renderLinks(links) {
     const row = (links || [])
+      .filter((link) => link && link.url)
       .map((link) => {
-        if (!link.url) {
-          return '<span class="action-link disabled">' + escapeHtml(link.label) + "</span>";
-        }
         const external = /^https?:/.test(link.url);
         return (
           '<a class="action-link" href="' + escapeHtml(link.url) + '"' +
@@ -343,13 +348,13 @@
             const roles = (home.roles || [])
               .map((role, index) => {
                 const linked = role.url
-                  ? '<a href="' + escapeHtml(role.url) + '" target="_blank" rel="noreferrer">' + escapeHtml(role.text) + "</a>"
-                  : escapeHtml(role.text || "");
-                return '<p class="name-line' + (index > 0 ? " secondary" : "") + '">' + escapeHtml(role.prefix || "") + linked + "</p>";
+                  ? '<a href="' + escapeHtml(role.url) + '" target="_blank" rel="noreferrer">' + formatInline(role.text) + "</a>"
+                  : formatInline(role.text || "");
+                return '<p class="name-line' + (index > 0 ? " secondary" : "") + '">' + formatInline(role.prefix || "") + linked + "</p>";
               })
               .join("");
             const bio = (home.bio || []).map((part) => "<p>" + formatInline(part) + "</p>").join("");
-            copyEl.innerHTML = "<h1>" + escapeHtml(home.heading || "") + "</h1>" + roles + bio;
+            copyEl.innerHTML = "<h1>" + formatInline(home.heading || "") + "</h1>" + roles + bio;
           }
           if (home.portrait) {
             const img = document.querySelector(".portrait-card img");
