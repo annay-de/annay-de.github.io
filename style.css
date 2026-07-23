@@ -3723,7 +3723,7 @@ html[data-theme="dark"] .site-nav.scrolled {
 
 .nav-inner {
   width: min(100% - 3rem, 1180px);
-  height: 58px;
+  height: 50px;
   padding: 0;
 }
 
@@ -3855,7 +3855,7 @@ html[data-theme="dark"] .site-nav.scrolled {
   }
 
   .nav-links {
-    top: calc(58px + 0.6rem);
+    top: calc(50px + 0.6rem);
     right: 0.6rem;
     left: 0.6rem;
     padding: 0.5rem;
@@ -3932,4 +3932,45 @@ html[data-theme="dark"] .scholar-copy h1 {
   color: var(--muted);
   font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.8rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Brand refinements, footer icons, home name colour                   */
+/* ------------------------------------------------------------------ */
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("assets/fonts/Montserrat-VariableFont_wght.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+.monogram .nav-name {
+  font-family: "Montserrat", var(--font-ui), sans-serif;
+  font-size: 1.04rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: none;
+}
+
+.footer-links a,
+.footer-links span {
+  width: 2rem;
+  height: 2rem;
+}
+
+.footer-links a::before,
+.footer-links span::before {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.scholar-copy h1,
+html:not([data-theme="dark"]) .scholar-copy h1 {
+  color: var(--text);
+}
+
+html[data-theme="dark"] .scholar-copy h1 {
+  color: #f1dfbf;
 }
