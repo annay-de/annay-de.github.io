@@ -3974,3 +3974,9 @@ html:not([data-theme="dark"]) .scholar-copy h1 {
 html[data-theme="dark"] .scholar-copy h1 {
   color: #f1dfbf;
 }
+
+.nav-link {
+  font-family: "Montserrat", var(--font-body), sans-serif;
+  font-size: 0.78rem;
+  font-weight: 570;
+}
