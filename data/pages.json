@@ -9,7 +9,12 @@
             "kicker": "For Eco-6810, Computational Thinking and Artificial Intelligence for Economists, Ashoka University",
             "title": "Decision under Uncertainty: Squad Allocation and Match Simulation Engine",
             "text": "Probabilistic ball-by-ball Indian Premier League simulation engine trained on 288,051 deliveries across 1,212 matches from 2008 to 2026 and 11 outcome classes. Its modern-profile XGBoost model achieved 1.8293 log-loss versus a 1.8767 empirical baseline, about a 2.5% improvement. The Streamlit app supports recency-weighted and lifetime modes, venue and matchup calibration, batting-position effectiveness, phase-aware bowling allocation, repeated simulations, and complete projected scorecards for comparing alternative elevens.",
-            "links": [{ "label": "Website", "url": "https://cricpredai.streamlit.app/" }]
+            "links": [
+              {
+                "label": "Website",
+                "url": "https://cricpredai.streamlit.app/"
+              }
+            ]
           },
           {
             "kicker": "For Eco-3401, Data Analytics and Machine Learning, Ashoka University",
@@ -71,27 +76,47 @@
           {
             "kicker": "Pratichi Institute · 2026",
             "title": "Data Collection using Kobo Toolbox",
-            "links": [{ "label": "Slides & Materials", "url": "" }]
+            "links": [
+              {
+                "label": "Slides & Materials",
+                "url": ""
+              }
+            ]
           },
           {
             "kicker": "Sappho for Equality · 2026",
             "title": "Data & Statistical Literacy, and Survey Design",
-            "links": [{ "label": "Slides", "url": "" }]
+            "links": [
+              {
+                "label": "Slides",
+                "url": ""
+              }
+            ]
           },
           {
             "kicker": "Deeniyat Muallima College · 2026",
             "title": "Artificial Intelligence for Education: Towards Better Classrooms",
-            "links": [{ "label": "Slides", "url": "" }]
+            "links": []
           },
           {
             "kicker": "Sabar Institute · 2025",
             "title": "Applied Data Collection and Handling Workshop",
-            "links": [{ "label": "Slides", "url": "" }]
+            "links": [
+              {
+                "label": "Slides",
+                "url": ""
+              }
+            ]
           },
           {
             "kicker": "Sabar Institute · 2025",
             "title": "Graphic Design and Data Visualisation Workshop",
-            "links": [{ "label": "Slides", "url": "" }]
+            "links": [
+              {
+                "label": "Slides",
+                "url": ""
+              }
+            ]
           }
         ]
       },
@@ -100,7 +125,7 @@
         "items": [
           {
             "title": "Access to Public Toilets Survey",
-            "meta": "Presidency University, Rabindra Bharati University, Gurudas College, Vivekananda College, Victoria Institution, Govt. Girls' General Degree College, Bethune College, Sarojini Naidu College, Sister Nivedita College, Shri Shikshayatan College · 2024"
+            "meta": "Presidency University ● Rabindra Bharati University ● Gurudas College ● Vivekananda College ● Victoria Institution ● Govt. Girls' General Degree College ● Bethune College ● Sarojini Naidu College ● Sister Nivedita College ● Shri Shikshayatan College · 2024"
           },
           {
             "title": "Migration Study in West Bengal",
@@ -131,12 +156,22 @@
           {
             "kicker": "With Dr Sajal Jana · Journal of Agricultural Development and Policy · Accepted / Forthcoming",
             "title": "Instability and Growth Dynamics in West Bengal's Foodgrain Sector",
-            "links": [{ "label": "Link", "url": "" }]
+            "links": [
+              {
+                "label": "Link",
+                "url": ""
+              }
+            ]
           },
           {
             "kicker": "The Extraordinaire, Volume 2 · Hult Prize, St. Xavier's College · 2025",
             "title": "“Capitalocentrism Driven Gentrification: A Critique Through the Lens of Social Economics”",
-            "links": [{ "label": "Link", "url": "" }]
+            "links": [
+              {
+                "label": "Link",
+                "url": ""
+              }
+            ]
           }
         ]
       },
@@ -146,22 +181,42 @@
           {
             "kicker": "Asia in Global Affairs",
             "title": "“The Great Asian Dilemma: Economic Boom or Environmental Doom”",
-            "links": [{ "label": "Link", "url": "https://www.asiainglobalaffairs.in/reflections/the-great-asian-dilemma-economic-boom-or-environmental-doom/" }]
+            "links": [
+              {
+                "label": "Link",
+                "url": "https://www.asiainglobalaffairs.in/reflections/the-great-asian-dilemma-economic-boom-or-environmental-doom/"
+              }
+            ]
           },
           {
             "kicker": "Asia in Global Affairs",
             "title": "“Asia's Tryst with the Female Labour Force: Indices, Geopolitics, Revolutions, and Developments”",
-            "links": [{ "label": "Link", "url": "https://www.asiainglobalaffairs.in/reflections/asias-tryst-with-the-female-labour-force-indices-geopolitics-revolutions-and-developments/" }]
+            "links": [
+              {
+                "label": "Link",
+                "url": "https://www.asiainglobalaffairs.in/reflections/asias-tryst-with-the-female-labour-force-indices-geopolitics-revolutions-and-developments/"
+              }
+            ]
           },
           {
             "kicker": "Asia in Global Affairs",
             "title": "“Beyond Lens & Beyond Borders: Oppenheimer and the Asian Narratives”",
-            "links": [{ "label": "Link", "url": "https://www.asiainglobalaffairs.in/reflections/beyond-lens-beyond-borders-oppenheimer-and-the-asian-narratives/" }]
+            "links": [
+              {
+                "label": "Link",
+                "url": "https://www.asiainglobalaffairs.in/reflections/beyond-lens-beyond-borders-oppenheimer-and-the-asian-narratives/"
+              }
+            ]
           },
           {
             "kicker": "Asia in Global Affairs",
             "title": "“Entertainment is the New Oil and Asia is the Middle East”",
-            "links": [{ "label": "Link", "url": "https://www.asiainglobalaffairs.in/reflections/entertainment-is-the-new-oil-and-all-of-asia-is-the-middle-east/" }]
+            "links": [
+              {
+                "label": "Link",
+                "url": "https://www.asiainglobalaffairs.in/reflections/entertainment-is-the-new-oil-and-all-of-asia-is-the-middle-east/"
+              }
+            ]
           }
         ]
       },
@@ -171,7 +226,12 @@
           {
             "kicker": "Sabar Institute · 2025",
             "title": "Kobo Toolbox Handbook: A Practical Guide for Survey Design, Data Collection, and Management",
-            "links": [{ "label": "Link", "url": "https://drive.google.com/file/d/1U2HcoF9sh7ehZCVmj8JUtHtH80ibXa8N/view" }]
+            "links": [
+              {
+                "label": "Link",
+                "url": "https://drive.google.com/file/d/1U2HcoF9sh7ehZCVmj8JUtHtH80ibXa8N/view"
+              }
+            ]
           }
         ]
       },
@@ -203,22 +263,12 @@
           {
             "title": "Summer incubatee, Infoedge Centre for Entrepreneurship",
             "text": "I have been selected as a summer incubatee for the Infoedge Centre for Entrepreneurship for Ashoka University's summer incubation programme, where I am developing my machine learning decision simulator around Indian Premier League teams: CricPredAI. Check it out, simulate, have fun, and send any feedback or criticism you might have.",
-            "links": [{ "label": "Open CricPredAI", "url": "https://cricpredai.streamlit.app/" }]
-          }
-        ]
-      },
-      {
-        "title": "Vibecoded logic games",
-        "items": [
-          {
-            "title": "Bridge",
-            "text": "Recently I have taken interest in vibecoding logic-based games.",
-            "links": [{ "label": "Play", "url": "https://bridge-table.onrender.com/" }]
-          },
-          {
-            "title": "Policy Simulator",
-            "text": "A logic-based policy simulator experiment.",
-            "links": [{ "label": "Link pending", "url": "" }]
+            "links": [
+              {
+                "label": "Open CricPredAI",
+                "url": "https://cricpredai.streamlit.app/"
+              }
+            ]
           }
         ]
       },
@@ -228,7 +278,12 @@
           {
             "title": "Quizzing, debate, and academic competitions",
             "text": "I have been extremely active in extracurricular activities with 35+ awards across quizzes, debates, research paper competitions, data analyses, case study competitions, and so on. Having been an avid quizzer for almost 15 years now, I have won awards representing my school, college, and university.\n\nI was the founder and secretary of the quiz club at my university, Dead Quizzers Society. I am also currently the president of the Quizzing Club at Ashoka University. I host regular quizzes.",
-            "links": [{ "label": "Quiz sets pending", "url": "" }]
+            "links": [
+              {
+                "label": "Quiz sets pending",
+                "url": ""
+              }
+            ]
           }
         ]
       },
