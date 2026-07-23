@@ -291,6 +291,30 @@
     ]);
   }
 
+  /* Colour picker with a "Default" reset. Empty stored value = site default. */
+  function colorField(labelText, fallback, getValue, setValue) {
+    const picker = el("input", { type: "color", value: getValue() || fallback });
+    const status = el("span", { class: "color-status", text: getValue() ? getValue() : "default" });
+    picker.addEventListener("input", () => {
+      setValue(picker.value);
+      status.textContent = picker.value;
+    });
+    const reset = el("button", {
+      class: "btn ghost",
+      type: "button",
+      text: "Default",
+      onclick: () => {
+        setValue("");
+        picker.value = fallback;
+        status.textContent = "default";
+      }
+    });
+    return el("div", { class: "field" }, [
+      el("span", { class: "field-label", text: labelText }),
+      el("div", { class: "color-field-row" }, [picker, status, reset])
+    ]);
+  }
+
   /* ---------- auth ---------- */
 
   async function signIn(token) {
@@ -804,7 +828,10 @@
     const items = state.data.endeavours.items;
 
     panel.appendChild(
-      el("p", { class: "panel-hint", text: "These lines appear under “Current Endeavours” on the homepage, in this order." })
+      el("p", {
+        class: "panel-hint",
+        text: "These lines appear under “Current Endeavours” on the homepage, in this order. Hyperlink any phrase with [label](https://url); **bold** and *italic* work too."
+      })
     );
 
     const list = el("div", { class: "admin-list" });
@@ -952,6 +979,27 @@
       );
     });
     panel.appendChild(footerCard);
+
+    site.theme = site.theme || {};
+    const themeCard = el("div", { class: "admin-card section-card" });
+    themeCard.appendChild(el("h3", { class: "editor-title", text: "Heading colour" }));
+    themeCard.appendChild(
+      el("p", {
+        class: "panel-hint",
+        text: "Colour used for page titles and section headings across the site. Leave on default to use the built-in indigo tuned per theme."
+      })
+    );
+    themeCard.appendChild(
+      fieldRow([
+        colorField("Headings in light mode", "#4453c4", () => site.theme.headingLight, (value) => {
+          site.theme.headingLight = value;
+        }),
+        colorField("Headings in dark mode", "#aab3ff", () => site.theme.headingDark, (value) => {
+          site.theme.headingDark = value;
+        })
+      ])
+    );
+    panel.appendChild(themeCard);
 
     panel.appendChild(
       el("div", { class: "admin-actions sticky-actions" }, [

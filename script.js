@@ -199,7 +199,7 @@
       .then((response) => (response.ok ? response.json() : null))
       .then((data) => {
         if (!data || !Array.isArray(data.items) || !data.items.length) return;
-        flow.innerHTML = data.items.map((item) => "<p>" + escapeHtml(item) + "</p>").join("");
+        flow.innerHTML = data.items.map((item) => "<p>" + formatInline(item) + "</p>").join("");
       })
       .catch(() => {});
   }
@@ -318,8 +318,21 @@
           if (bottomEl && data.footer.email) {
             bottomEl.innerHTML =
               "<strong>" + escapeHtml(data.footer.email) + "</strong>" +
-              (data.footer.note ? " - " + escapeHtml(data.footer.note) : "");
+              (data.footer.note ? " - " + formatInline(data.footer.note) : "");
             setupEmailCopy();
+          }
+        }
+
+        if (data.theme) {
+          const validHex = (value) => (/^#[0-9a-fA-F]{6}$/.test(value || "") ? value : null);
+          const headingLight = validHex(data.theme.headingLight);
+          const headingDark = validHex(data.theme.headingDark);
+          if (headingLight || headingDark) {
+            const style = document.createElement("style");
+            style.textContent =
+              (headingLight ? ":root{--heading:" + headingLight + ";}" : "") +
+              (headingDark ? 'html[data-theme="dark"]{--heading:' + headingDark + ";}" : "");
+            document.head.appendChild(style);
           }
         }
 
