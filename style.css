@@ -62,8 +62,8 @@
   --accent: #5b6ef5;
   --accent-soft: rgba(91, 110, 245, 0.09);
   --body-wash: radial-gradient(circle at 22% 16%, rgba(91, 110, 245, 0.075), transparent 34rem);
-  --cursor-glow: radial-gradient(26rem circle at var(--cursor-x) var(--cursor-y), rgba(91, 110, 245, 0.105), transparent 62%),
-    radial-gradient(18rem circle at calc(var(--cursor-x) + 12rem) calc(var(--cursor-y) + 8rem), rgba(154, 137, 255, 0.055), transparent 72%);
+  --cursor-glow: radial-gradient(30rem circle at var(--cursor-x) var(--cursor-y), rgba(91, 110, 245, 0.30), transparent 60%),
+    radial-gradient(20rem circle at calc(var(--cursor-x) + 12rem) calc(var(--cursor-y) + 8rem), rgba(154, 137, 255, 0.17), transparent 70%);
   --grain-wash: linear-gradient(rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0));
   --nav-glass: linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.42));
   --nav-glass-scrolled: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.58));
@@ -99,8 +99,8 @@ html[data-theme="dark"] {
   --accent-soft: rgba(154, 164, 255, 0.16);
   --body-wash: radial-gradient(circle at 22% 12%, rgba(91, 110, 245, 0.18), transparent 36rem),
     radial-gradient(circle at 82% 10%, rgba(154, 137, 255, 0.08), transparent 26rem);
-  --cursor-glow: radial-gradient(28rem circle at var(--cursor-x) var(--cursor-y), rgba(120, 136, 255, 0.18), transparent 64%),
-    radial-gradient(18rem circle at calc(var(--cursor-x) + 12rem) calc(var(--cursor-y) + 8rem), rgba(255, 255, 255, 0.045), transparent 72%);
+  --cursor-glow: radial-gradient(32rem circle at var(--cursor-x) var(--cursor-y), rgba(130, 146, 255, 0.34), transparent 62%),
+    radial-gradient(20rem circle at calc(var(--cursor-x) + 12rem) calc(var(--cursor-y) + 8rem), rgba(255, 255, 255, 0.07), transparent 72%);
   --grain-wash: linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0));
   --nav-glass: linear-gradient(180deg, rgba(22, 24, 32, 0.68), rgba(12, 13, 17, 0.34));
   --nav-glass-scrolled: linear-gradient(180deg, rgba(24, 26, 34, 0.82), rgba(12, 13, 17, 0.54));
@@ -149,7 +149,7 @@ body::before {
   z-index: 0;
   pointer-events: none;
   background: var(--cursor-glow);
-  opacity: 0.85;
+  opacity: 1;
   transition: opacity 0.4s ease;
   content: "";
 }
@@ -4045,4 +4045,10 @@ html[data-theme="dark"] .site-nav.scrolled {
   box-shadow:
     inset 0 1px 0 var(--glass-highlight),
     0 16px 48px rgba(0, 0, 0, 0.46);
+}
+
+.footer-sep {
+  color: var(--faint);
+  cursor: default;
+  user-select: none;
 }
