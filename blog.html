@@ -52,8 +52,45 @@
     <header class="page-heading reveal" id="blog-heading">
       <div>
         <h1 id="blog-title">₹36.41</h1>
-        <p class="page-intro">My two cents, adjusted for inflation. Notes on economics, data, research in progress, and everything in between.</p>
-        <p class="page-intro two-cents-note" id="two-cents-note">This blog is named after what two US cents from 1926, when "my two cents' worth" first shows up in print, are worth today in rupees. It updates every morning.</p>
+        <p class="page-intro">Notes on economics, data, research in progress, and everything in between.</p>
+        <div class="name-story" id="name-story">
+          <p class="name-gist">The name is the price of my two cents: two US cents from 1926, carried through a century of inflation and converted to rupees at today&rsquo;s rate.</p>
+          <details>
+            <summary><span>The story behind the name</span><span class="name-chevron" aria-hidden="true"></span></summary>
+            <div class="name-body">
+
+              <section class="name-part">
+                <h2><span class="name-num">01</span>The phrase</h2>
+                <p>&ldquo;My two cents&rdquo; is a self-deprecating hedge: here is my view, and it is worth about as much as the smallest coin you could spare. It descends from the older British <em>twopenn&rsquo;orth</em>, offering your &ldquo;two-penny worth&rdquo;, and the American version took its place in the early twentieth century, when two cents bought a stamp or a newspaper. The biblical widow&rsquo;s two mites probably lent it some moral colour, but the story there is about generosity, not opinion.</p>
+                <p>The earliest American print use anyone has found is a March 1926 item by columnist Allene Sumner in the <em>Olean Evening Times</em>, headed My &ldquo;Two cents&rsquo; worth&rdquo;. By the late 1930s the meaning is unmistakable in running text, as in a 1937 Archie Binns novel where everyone is &ldquo;putting in his two cents&rsquo; worth&rdquo;. So 1926 is the anchor year.</p>
+              </section>
+
+              <section class="name-part">
+                <h2><span class="name-num">02</span>The arithmetic</h2>
+                <p>Inflation is measured with the US Consumer Price Index (CPI-U, all items, 1982&ndash;84 = 100). The index stood at 17.8 in March 1926. Scale two cents by how far the index has risen since, then convert at today&rsquo;s exchange rate.</p>
+                <div class="name-receipt" role="group" aria-label="Today's calculation">
+                  <div class="receipt-row"><span>Two cents, March 1926</span><span>$0.02</span></div>
+                  <div class="receipt-row"><span>CPI now (<span data-tc="cpi_month">latest month</span>) &divide; CPI March 1926</span><span><span data-tc="cpi">&hellip;</span> &divide; 17.8</span></div>
+                  <div class="receipt-row"><span>Two cents in today&rsquo;s dollars</span><span>$<span data-tc="usd">&hellip;</span></span></div>
+                  <div class="receipt-row"><span>Rupees per dollar (<span data-tc="fx_date">today</span>)</span><span>&times; &#8377;<span data-tc="usd_inr">&hellip;</span></span></div>
+                  <div class="receipt-row receipt-total"><span>My two cents today</span><span data-tc="label">&hellip;</span></div>
+                </div>
+              </section>
+
+              <section class="name-part">
+                <h2><span class="name-num">03</span>Why it changes</h2>
+                <p>A small script runs every morning at 05:53 IST. It pulls the latest CPI from the US Bureau of Labor Statistics and the dollar&ndash;rupee reference rate from the European Central Bank (via Frankfurter), both free and public, then renames this page. Prices drift up month by month, the rupee moves day by day, and the name follows. On weekends the ECB publishes no rate, so the name rests too.</p>
+              </section>
+
+              <section class="name-part">
+                <h2><span class="name-num">04</span>Fine print</h2>
+                <p>&ldquo;Worth&rdquo; depends on the yardstick. CPI asks what the same basket of goods costs; measured against wages or income per head instead, two cents from 1926 would be worth several times more. The anchor year matters too: prices fell through the Depression, so two cents from mid-1936, when the opinion sense was settling in, would be worth <span data-tc="label36">a bit more</span> today. Early CPI figures are reconstructions, so treat the paise as decoration.</p>
+              </section>
+
+              <p class="name-sources">Sources: <a class="text-link" href="https://www.phrases.org.uk/meanings/393950.html" target="_blank" rel="noreferrer">Phrase Finder</a> &middot; <a class="text-link" href="https://www.bls.gov/cpi/" target="_blank" rel="noreferrer">BLS CPI</a> &middot; <a class="text-link" href="https://frankfurter.dev/" target="_blank" rel="noreferrer">Frankfurter (ECB rates)</a> &middot; <a class="text-link" href="data/two-cents.json">Today&rsquo;s raw numbers</a></p>
+            </div>
+          </details>
+        </div>
       </div>
     </header>
 

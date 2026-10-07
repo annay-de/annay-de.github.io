@@ -4,19 +4,30 @@
   const headingEl = document.getElementById("blog-heading");
   if (!indexEl || !postEl) return;
 
-  const noteEl = document.getElementById("two-cents-note");
-  if (noteEl) {
+  const storyEl = document.getElementById("name-story");
+  if (storyEl) {
     fetch("data/two-cents.json", { cache: "no-cache" })
       .then((response) => (response.ok ? response.json() : null))
       .then((d) => {
         if (!d || !d.label) return;
         const titleEl = document.getElementById("blog-title");
         if (titleEl) titleEl.textContent = d.label;
-        noteEl.textContent =
-          "Named after what two US cents from " + d.base_period +
-          ", the earliest known print use of \u201cmy two cents\u2019 worth\u201d, are worth today: $0.02 \u00d7 (CPI " +
-          d.cpi + " for " + d.cpi_month + " \u00f7 " + d.base_cpi + ") \u00d7 \u20b9" +
-          Number(d.usd_inr).toFixed(4) + " per dollar (" + d.fx_date + ") = " + d.label + ". Recomputed every morning.";
+        const inr36 = d.base_usd * (d.cpi / 13.8) * d.usd_inr;
+        const values = {
+          cpi: Number(d.cpi).toFixed(3),
+          cpi_month: d.cpi_month,
+          usd: Number(d.usd).toFixed(4),
+          usd_inr: Number(d.usd_inr).toFixed(2),
+          fx_date: new Date(d.fx_date + "T00:00:00").toString() === "Invalid Date"
+            ? d.fx_date
+            : new Date(d.fx_date + "T00:00:00").toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }),
+          label: d.label,
+          label36: "\u20b9" + inr36.toFixed(2)
+        };
+        storyEl.querySelectorAll("[data-tc]").forEach((node) => {
+          const value = values[node.dataset.tc];
+          if (value) node.textContent = value;
+        });
       })
       .catch(() => {});
   }
