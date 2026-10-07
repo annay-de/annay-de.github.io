@@ -1,0 +1,44 @@
+name: Update two cents
+
+on:
+  schedule:
+    - cron: "23 0 * * *"   # daily, 05:53 IST
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/scripts/two_cents.py
+      - .github/workflows/two-cents.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: two-cents
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Compute today's value
+        run: python .github/scripts/two_cents.py
+
+      - name: Commit if changed
+        run: |
+          if git diff --quiet; then
+            echo "No change today."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add -A data *.html
+          git commit -m "Two cents today: $(python -c 'import json;print(json.load(open("data/two-cents.json"))["label"])')"
+          git pull --rebase origin main
+          git push

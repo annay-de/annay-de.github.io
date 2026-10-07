@@ -4,6 +4,23 @@
   const headingEl = document.getElementById("blog-heading");
   if (!indexEl || !postEl) return;
 
+  const noteEl = document.getElementById("two-cents-note");
+  if (noteEl) {
+    fetch("data/two-cents.json", { cache: "no-cache" })
+      .then((response) => (response.ok ? response.json() : null))
+      .then((d) => {
+        if (!d || !d.label) return;
+        const titleEl = document.getElementById("blog-title");
+        if (titleEl) titleEl.textContent = d.label;
+        noteEl.textContent =
+          "Named after what two US cents from " + d.base_period +
+          ", the earliest known print use of \u201cmy two cents\u2019 worth\u201d, are worth today: $0.02 \u00d7 (CPI " +
+          d.cpi + " for " + d.cpi_month + " \u00f7 " + d.base_cpi + ") \u00d7 \u20b9" +
+          Number(d.usd_inr).toFixed(4) + " per dollar (" + d.fx_date + ") = " + d.label + ". Recomputed every morning.";
+      })
+      .catch(() => {});
+  }
+
   const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
   function formatDate(iso) {
@@ -66,7 +83,7 @@
   }
 
   function renderPost(post) {
-    document.title = post.title + " | Blog | Annay De";
+    document.title = post.title + " | " + (document.getElementById("blog-title") || {}).textContent + " | Annay De";
     headingEl.hidden = true;
     indexEl.hidden = true;
     postEl.hidden = false;
