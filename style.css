@@ -4241,3 +4241,76 @@ html[data-theme="dark"] .site-nav.scrolled {
     transition: none;
   }
 }
+
+/* Citations and references for the blog name story */
+.name-story .cite {
+  margin-left: 0.12em;
+  font-family: var(--font-ui);
+  font-size: 0.68em;
+  font-weight: 700;
+  line-height: 0;
+}
+
+.name-story .cite a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.name-story .cite a::before { content: "["; }
+.name-story .cite a::after { content: "]"; }
+
+.name-story .cite a:hover,
+.name-story .cite a:focus-visible {
+  color: var(--text);
+  text-decoration: underline;
+}
+
+.name-refs {
+  margin-top: 1.6rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--line);
+}
+
+.name-refs h2 {
+  margin: 0 0 0.6rem;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 1rem;
+}
+
+.name-refs ol {
+  margin: 0;
+  padding-left: 1.4rem;
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.name-refs li {
+  margin-bottom: 0.45rem;
+  padding-left: 0.2rem;
+  overflow-wrap: anywhere;
+}
+
+.name-refs li:target {
+  color: var(--text);
+  background: var(--accent-soft);
+  border-radius: 6px;
+}
+
+.name-refs .text-link {
+  display: inline;
+  font-size: 0.82rem;
+}
+
+.name-refs .name-sources {
+  margin-top: 0.8rem;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.name-refs li,
+.name-story .cite a {
+  scroll-margin-top: calc(var(--nav-height) + 1.5rem);
+}
