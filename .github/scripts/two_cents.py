@@ -9,8 +9,8 @@ Sources (free, no API key):
   - CPI-U, U.S. city average, all items, NSA (series CUUR0000SA0): BLS public API v1
   - USD/INR: Frankfurter (ECB reference rates), falling back to open.er-api.com
 
-The result becomes the blog's name: data/site.json nav label plus the static
-HTML in every page, so it shows correctly even before JavaScript runs.
+The result becomes the blog's name, "My ₹X", in blog.html's heading and
+browser title. The nav tab stays "Blog".
 If CPI can't be fetched, the last stored CPI is reused (it only changes monthly).
 If no exchange rate can be fetched, nothing is changed.
 """
@@ -24,7 +24,6 @@ import urllib.request
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 RECORD = ROOT / "data" / "two-cents.json"
-SITE = ROOT / "data" / "site.json"
 
 BASE_USD = 0.02
 BASE_PERIOD = "March 1926"
@@ -74,16 +73,14 @@ def label_for(inr):
 
 
 def update_html(label):
-    nav_re = re.compile(r'(<a class="nav-link" data-nav="blog" href="blog\.html"><span>)[^<]*(</span></a>)')
-    for page in ROOT.glob("*.html"):
-        text = page.read_text(encoding="utf-8")
-        new = nav_re.sub(lambda m: m.group(1) + label + m.group(2), text)
-        if page.name == "blog.html":
-            new = re.sub(r"<title>[^<]*</title>", f"<title>{label} | Annay De</title>", new)
-            new = re.sub(r'(<meta property="og:title" content=")[^"]*(")', lambda m: m.group(1) + label + " | Annay De" + m.group(2), new)
-            new = re.sub(r'(<h1 id="blog-title">)[^<]*(</h1>)', lambda m: m.group(1) + label + m.group(2), new)
-        if new != text:
-            page.write_text(new, encoding="utf-8")
+    name = f"My {label}"
+    page = ROOT / "blog.html"
+    text = page.read_text(encoding="utf-8")
+    new = re.sub(r"<title>[^<]*</title>", f"<title>{name} | Annay De</title>", text)
+    new = re.sub(r'(<meta property="og:title" content=")[^"]*(")', lambda m: m.group(1) + name + " | Annay De" + m.group(2), new)
+    new = re.sub(r'(<h1 id="blog-title">)[^<]*(</h1>)', lambda m: m.group(1) + name + m.group(2), new)
+    if new != text:
+        page.write_text(new, encoding="utf-8")
 
 
 def main():
@@ -118,10 +115,6 @@ def main():
         "updated": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
     }
     RECORD.write_text(json.dumps(record, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-
-    site = json.loads(SITE.read_text(encoding="utf-8"))
-    site["nav"]["labels"]["blog"] = label
-    SITE.write_text(json.dumps(site, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     update_html(label)
     print(f"{label}  (CPI {cpi} for {cpi_month}; USD/INR {fx} on {fx_date} via {fx_source})")

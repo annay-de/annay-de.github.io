@@ -11,7 +11,7 @@
       .then((d) => {
         if (!d || !d.label) return;
         const titleEl = document.getElementById("blog-title");
-        if (titleEl) titleEl.textContent = d.label;
+        if (titleEl) titleEl.textContent = "My " + d.label;
         const inr36 = d.base_usd * (d.cpi / 13.8) * d.usd_inr;
         const values = {
           cpi: Number(d.cpi).toFixed(3),
