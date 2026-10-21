@@ -9,8 +9,8 @@
   "cpi_month": "September 2026",
   "cpi_source": "BLS CPI-U CUUR0000SA0 (api.bls.gov)",
   "usd_inr": 94.93,
-  "fx_date": "2026-10-19",
+  "fx_date": "2026-10-20",
   "fx_source": "Frankfurter / ECB reference rate",
   "formula": "0.02 x (CPI_latest / CPI_March1926) x USD/INR",
-  "updated": "2026-10-20T05:02:54Z"
+  "updated": "2026-10-21T05:03:22Z"
 }
