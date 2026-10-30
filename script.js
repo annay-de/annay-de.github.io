@@ -61,6 +61,28 @@
     });
   }
 
+  /* Give each nav tab the interactive-button motion: a second "reveal"
+     layer (label + arrow) that swaps in on hover. Re-runs after label
+     hydration; the reveal text is kept in sync with the label. */
+  function setupNavSwap() {
+    document.querySelectorAll(".site-nav .nav-link").forEach((link) => {
+      const label = link.querySelector("span");
+      if (!label) return;
+      label.classList.add("nav-label");
+      const text = label.textContent;
+      let reveal = link.querySelector(".nav-reveal");
+      if (!reveal) {
+        reveal = document.createElement("span");
+        reveal.className = "nav-reveal";
+        reveal.setAttribute("aria-hidden", "true");
+        link.appendChild(reveal);
+      }
+      reveal.innerHTML =
+        escapeHtml(text) +
+        ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+    });
+  }
+
   function setNavState() {
     if (!nav) return;
     nav.classList.toggle("scrolled", window.scrollY > 8);
@@ -314,6 +336,7 @@
               const span = link.querySelector("span");
               if (label && span) span.textContent = label;
             });
+            setupNavSwap();
           }
         }
 
@@ -433,6 +456,7 @@
   }
 
   setActiveNav();
+  setupNavSwap();
   setupTheme();
   setupMenu();
   setupStagger();

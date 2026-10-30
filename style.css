@@ -4431,3 +4431,71 @@ html[data-theme="dark"] {
     transition: none;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Nav tabs: interactive-button motion (label swaps for label+arrow)   */
+/* Replaces the magnify + underline hover.                             */
+/* ------------------------------------------------------------------ */
+
+.site-nav .nav-link {
+  position: relative;
+  overflow: hidden;
+}
+
+/* turn off the previous underline + magnify */
+.site-nav .nav-link span::after {
+  content: none !important;
+}
+
+.site-nav .nav-link .nav-label {
+  display: inline-flex;
+  align-items: center;
+  transform: translateY(0);
+  transition: transform 0.32s var(--ease), opacity 0.3s var(--ease);
+}
+
+.site-nav .nav-link:hover .nav-label,
+.site-nav .nav-link:focus-visible .nav-label {
+  transform: translateY(-120%);
+  opacity: 0;
+}
+
+.site-nav .nav-link .nav-reveal {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.26rem;
+  color: var(--accent);
+  transform: translateY(120%);
+  opacity: 0;
+  transition: transform 0.32s var(--ease), opacity 0.3s var(--ease);
+}
+
+.site-nav .nav-link:hover .nav-reveal,
+.site-nav .nav-link:focus-visible .nav-reveal {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.site-nav .nav-link .nav-reveal svg {
+  width: 0.92em;
+  height: 0.92em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav .nav-link .nav-label,
+  .site-nav .nav-link .nav-reveal {
+    transition: none;
+  }
+}
+
+/* mobile dropdown: labels are centered large tap targets — keep the
+   swap but give a touch more height so nothing clips */
+@media (max-width: 1100px) {
+  .site-nav .nav-link {
+    overflow: hidden;
+  }
+}
