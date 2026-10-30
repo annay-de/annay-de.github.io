@@ -12,8 +12,7 @@
             "links": [
               {
                 "label": "Website",
-                "url": "https://cricpredai.streamlit.app/",
-                "style": "button"
+                "url": "https://cricpredai.streamlit.app/"
               }
             ]
           },
@@ -237,8 +236,7 @@
             "links": [
               {
                 "label": "Open CricPredAI",
-                "url": "https://cricpredai.streamlit.app/",
-                "style": "button"
+                "url": "https://cricpredai.streamlit.app/"
               }
             ]
           }
