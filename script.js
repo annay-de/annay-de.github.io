@@ -61,6 +61,26 @@
     });
   }
 
+  /* Give each nav tab the interactive-button motion: a second "reveal"
+     layer (label + arrow) that swaps in on hover. Re-runs after label
+     hydration; the reveal text is kept in sync with the label. */
+  function setupNavSwap() {
+    document.querySelectorAll(".site-nav .nav-link").forEach((link) => {
+      const label = link.querySelector("span");
+      if (!label) return;
+      label.classList.add("nav-label");
+      const text = label.textContent;
+      let reveal = link.querySelector(".nav-reveal");
+      if (!reveal) {
+        reveal = document.createElement("span");
+        reveal.className = "nav-reveal";
+        reveal.setAttribute("aria-hidden", "true");
+        link.appendChild(reveal);
+      }
+      reveal.textContent = text;
+    });
+  }
+
   function setNavState() {
     if (!nav) return;
     nav.classList.toggle("scrolled", window.scrollY > 8);
@@ -222,10 +242,23 @@
       .filter((link) => link && link.url)
       .map((link) => {
         const external = /^https?:/.test(link.url);
+        const attrs = 'href="' + escapeHtml(link.url) + '"' + (external ? ' target="_blank" rel="noreferrer"' : "");
+        const label = escapeHtml(link.label);
+
+        if (link.style === "button") {
+          return (
+            '<a class="hover-button" ' + attrs + ">" +
+            '<span class="hb-label">' + label + "</span>" +
+            '<span class="hb-reveal" aria-hidden="true">' + label +
+            ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>' +
+            '<span class="hb-dot" aria-hidden="true"></span>' +
+            "</a>"
+          );
+        }
+
         return (
-          '<a class="action-link" href="' + escapeHtml(link.url) + '"' +
-          (external ? ' target="_blank" rel="noreferrer"' : "") + ">" +
-          escapeHtml(link.label) +
+          "<a class=\"action-link\" " + attrs + ">" +
+          label +
           (external ? '<span class="ext" aria-hidden="true">&#8599;</span>' : "") +
           "</a>"
         );
@@ -301,6 +334,7 @@
               const span = link.querySelector("span");
               if (label && span) span.textContent = label;
             });
+            setupNavSwap();
           }
         }
 
@@ -420,6 +454,7 @@
   }
 
   setActiveNav();
+  setupNavSwap();
   setupTheme();
   setupMenu();
   setupStagger();
