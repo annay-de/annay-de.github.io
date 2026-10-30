@@ -4499,3 +4499,79 @@ html[data-theme="dark"] {
     overflow: hidden;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Nav tabs tweak: horizontal swipe · same text (no arrow, no colour   */
+/* shift) · magnify + underline kept · snappier · all tabs on hover    */
+/* ------------------------------------------------------------------ */
+
+.site-nav .nav-link .nav-label,
+.site-nav .nav-link .nav-reveal {
+  color: inherit;
+  transition: transform 0.2s var(--ease), opacity 0.18s ease;
+}
+
+/* original label swipes out to the right */
+.site-nav .nav-link .nav-label {
+  transform: translateX(0) scale(1);
+}
+
+.site-nav .nav-link:hover .nav-label,
+.site-nav .nav-link:focus-visible .nav-label {
+  transform: translateX(0.75em) scale(1.06);
+  opacity: 0;
+}
+
+/* identical copy swipes in from the left and settles, magnified */
+.site-nav .nav-link .nav-reveal {
+  justify-content: center;
+  gap: 0;
+  transform: translateX(-0.75em) scale(1);
+  opacity: 0;
+}
+
+.site-nav .nav-link:hover .nav-reveal,
+.site-nav .nav-link:focus-visible .nav-reveal {
+  transform: translateX(0) scale(1.06);
+  opacity: 1;
+}
+
+/* underline restored, on the link so the swapping layers don't clip it */
+.site-nav .nav-link::after {
+  content: "";
+  position: absolute;
+  right: 0.62rem;
+  bottom: 4px;
+  left: 0.62rem;
+  height: 1.5px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 34%, transparent);
+  opacity: 0;
+  transform: scaleX(0.3);
+  transform-origin: 50% 50%;
+  transition: transform 0.2s var(--ease), opacity 0.16s ease;
+}
+
+.site-nav .nav-link:hover::after,
+.site-nav .nav-link:focus-visible::after,
+.site-nav .nav-link.active::after {
+  opacity: 0.9;
+  transform: scaleX(1);
+}
+
+@media (max-width: 1100px) {
+  /* in the stacked mobile menu a horizontal swipe + persistent underline
+     under every centered row is noisy — keep it calm there */
+  .site-nav .nav-link::after {
+    display: none;
+  }
+  .site-nav .nav-link:hover .nav-label,
+  .site-nav .nav-link:focus-visible .nav-label {
+    transform: translateX(0.4em) scale(1.03);
+  }
+  .site-nav .nav-link:hover .nav-reveal,
+  .site-nav .nav-link:focus-visible .nav-reveal {
+    transform: translateX(0) scale(1.03);
+  }
+}
