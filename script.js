@@ -222,10 +222,23 @@
       .filter((link) => link && link.url)
       .map((link) => {
         const external = /^https?:/.test(link.url);
+        const attrs = 'href="' + escapeHtml(link.url) + '"' + (external ? ' target="_blank" rel="noreferrer"' : "");
+        const label = escapeHtml(link.label);
+
+        if (link.style === "button") {
+          return (
+            '<a class="hover-button" ' + attrs + ">" +
+            '<span class="hb-label">' + label + "</span>" +
+            '<span class="hb-reveal" aria-hidden="true">' + label +
+            ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>' +
+            '<span class="hb-dot" aria-hidden="true"></span>' +
+            "</a>"
+          );
+        }
+
         return (
-          '<a class="action-link" href="' + escapeHtml(link.url) + '"' +
-          (external ? ' target="_blank" rel="noreferrer"' : "") + ">" +
-          escapeHtml(link.label) +
+          "<a class=\"action-link\" " + attrs + ">" +
+          label +
           (external ? '<span class="ext" aria-hidden="true">&#8599;</span>' : "") +
           "</a>"
         );
