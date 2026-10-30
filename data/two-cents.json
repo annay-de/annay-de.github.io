@@ -1,6 +1,6 @@
 {
-  "label": "₹36.05",
-  "inr": 36.0488,
+  "label": "₹36.07",
+  "inr": 36.0677,
   "usd": 0.378584,
   "base_usd": 0.02,
   "base_period": "March 1926",
@@ -8,9 +8,9 @@
   "cpi": 336.94,
   "cpi_month": "September 2026",
   "cpi_source": "BLS CPI-U CUUR0000SA0 (api.bls.gov)",
-  "usd_inr": 95.22,
-  "fx_date": "2026-10-28",
+  "usd_inr": 95.27,
+  "fx_date": "2026-10-29",
   "fx_source": "Frankfurter / ECB reference rate",
   "formula": "0.02 x (CPI_latest / CPI_March1926) x USD/INR",
-  "updated": "2026-10-29T06:04:05Z"
+  "updated": "2026-10-30T06:05:19Z"
 }
