@@ -150,9 +150,6 @@
   }
 
   function setupCursorGlow() {
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reducedMotion) return;
-
     let frame = 0;
     let nextX = window.innerWidth * 0.45;
     let nextY = window.innerHeight * 0.22;
@@ -321,9 +318,14 @@
           }
           const bottomEl = document.querySelector(".footer-bottom");
           if (bottomEl && data.footer.email) {
-            bottomEl.innerHTML =
-              "<strong>" + escapeHtml(data.footer.email) + "</strong>" +
-              (data.footer.note ? " - " + formatInline(data.footer.note) : "");
+            const emails = String(data.footer.email)
+              .split(/\s*[●•|,]\s*/)
+              .map((entry) => entry.trim())
+              .filter(Boolean);
+            const emailHtml = emails
+              .map((entry) => '<strong class="footer-email">' + escapeHtml(entry) + "</strong>")
+              .join(' <span class="footer-sep" aria-hidden="true">●</span> ');
+            bottomEl.innerHTML = emailHtml + (data.footer.note ? " - " + formatInline(data.footer.note) : "");
             setupEmailCopy();
           }
         }
@@ -386,32 +388,34 @@
   }
 
   function setupEmailCopy() {
-    const emailEl = document.querySelector(".footer-bottom strong");
-    if (!emailEl || !navigator.clipboard || emailEl.classList.contains("copyable")) return;
+    if (!navigator.clipboard) return;
 
-    emailEl.classList.add("copyable");
-    emailEl.setAttribute("role", "button");
-    emailEl.setAttribute("tabindex", "0");
-    emailEl.setAttribute("aria-label", "Copy email address");
+    const targets = document.querySelectorAll(".footer-email:not(.copyable), .footer-bottom > strong:not(.footer-email):not(.copyable)");
+    targets.forEach((emailEl) => {
+      emailEl.classList.add("copyable");
+      emailEl.setAttribute("role", "button");
+      emailEl.setAttribute("tabindex", "0");
+      emailEl.setAttribute("aria-label", "Copy " + emailEl.textContent.trim());
 
-    let timer = 0;
-    const copy = () => {
-      navigator.clipboard
-        .writeText(emailEl.textContent.trim())
-        .then(() => {
-          emailEl.classList.add("copied");
-          window.clearTimeout(timer);
-          timer = window.setTimeout(() => emailEl.classList.remove("copied"), 1600);
-        })
-        .catch(() => {});
-    };
+      let timer = 0;
+      const copy = () => {
+        navigator.clipboard
+          .writeText(emailEl.textContent.trim())
+          .then(() => {
+            emailEl.classList.add("copied");
+            window.clearTimeout(timer);
+            timer = window.setTimeout(() => emailEl.classList.remove("copied"), 1600);
+          })
+          .catch(() => {});
+      };
 
-    emailEl.addEventListener("click", copy);
-    emailEl.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        copy();
-      }
+      emailEl.addEventListener("click", copy);
+      emailEl.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          copy();
+        }
+      });
     });
   }
 
