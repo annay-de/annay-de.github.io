@@ -12,5 +12,5 @@
   "fx_date": "2026-11-13",
   "fx_source": "Frankfurter / ECB reference rate",
   "formula": "0.02 x (CPI_latest / CPI_March1926) x USD/INR",
-  "updated": "2026-11-15T06:51:50Z"
+  "updated": "2026-11-16T06:52:44Z"
 }
