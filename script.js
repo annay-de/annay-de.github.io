@@ -274,12 +274,14 @@
       .filter(Boolean)
       .map((part) => "<p>" + formatInline(part) + "</p>")
       .join("");
+    /* Title first, then the venue/context line, as in a classic academic
+       publication list. */
     return (
       '<article class="publication-item">' +
-      (item.kicker ? '<div class="publication-meta">' + formatInline(item.kicker) + "</div>" : "") +
       "<h3>" + formatInline(item.title || "") + "</h3>" +
-      paragraphs +
+      (item.kicker ? '<div class="publication-meta">' + formatInline(item.kicker) + "</div>" : "") +
       (item.meta ? '<div class="list-meta">' + formatInline(item.meta) + "</div>" : "") +
+      paragraphs +
       renderLinks(item.links) +
       "</article>"
     );
