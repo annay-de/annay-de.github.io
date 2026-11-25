@@ -4575,3 +4575,97 @@ html[data-theme="dark"] {
     transform: translateX(0) scale(1.03);
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Clean, lineless academic listing (inner pages only)                 */
+/* Items are plain paragraph blocks separated by whitespace — no rules */
+/* between entries, no heading underlines, no hover nudges.            */
+/* ------------------------------------------------------------------ */
+
+.page-shell .page-heading {
+  margin-bottom: 2.2rem;
+  padding-bottom: 0;
+  border-bottom: 0 !important;
+}
+
+.page-shell .content-section {
+  margin-top: 2.9rem;
+}
+
+.page-shell .content-section:first-of-type {
+  margin-top: 0;
+}
+
+.page-shell .content-section .section-title {
+  margin-bottom: 1.15rem;
+  padding-bottom: 0;
+}
+
+.page-shell .content-section .section-title::after {
+  display: none;
+}
+
+.page-shell .publication-item,
+.page-shell .project-card,
+.page-shell .clean-item,
+.page-shell .work-item {
+  margin: 0 0 1.55rem;
+  padding: 0;
+  border: 0 !important;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.page-shell .publication-item:last-child,
+.page-shell .project-card:last-child,
+.page-shell .clean-item:last-child,
+.page-shell .work-item:last-child {
+  margin-bottom: 0;
+}
+
+.page-shell .publication-item:hover,
+.page-shell .project-card:hover,
+.page-shell .clean-item:hover,
+.page-shell .work-item:hover {
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+}
+
+/* inside an entry: title, then the muted venue/context line, then body */
+.page-shell .publication-item h3,
+.page-shell .project-card h3,
+.page-shell .clean-item h3 {
+  margin: 0;
+}
+
+.page-shell .publication-item .publication-meta,
+.page-shell .publication-item .list-meta {
+  margin-top: 0.22rem;
+  line-height: 1.55;
+}
+
+.page-shell .publication-item p {
+  margin-top: 0.45rem;
+}
+
+.page-shell .publication-item .link-row {
+  margin-top: 0.45rem;
+}
+
+/* blog index: same whitespace-only rhythm */
+.page-shell .blog-entry,
+.page-shell .blog-entry:last-child {
+  padding: 0;
+  margin: 0 0 1.45rem;
+  border: 0 !important;
+}
+
+.page-shell .blog-entry:hover {
+  transform: none;
+}
+
+.page-shell #blog-index .year-group h3 {
+  margin-bottom: 0.9rem;
+}
