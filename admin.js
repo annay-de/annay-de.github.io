@@ -641,7 +641,12 @@
 
   function pageItemEditor(section, item, itemIndex) {
     const linksValue = (item.links || [])
-      .map((link) => link.label + " | " + (link.url || "") + (link.style === "button" ? " | button" : ""))
+      .map(
+        (link) =>
+          (link.group ? link.group + " > " : "") +
+          link.label + " | " + (link.url || "") +
+          (link.style === "button" ? " | button" : "")
+      )
       .join("\n");
 
     return el("div", { class: "admin-subcard" }, [
@@ -684,22 +689,32 @@
       field("Meta line (small grey line below, optional)", textInput(item.meta, "e.g. “Since 2025”", (value) => {
         item.meta = value;
       })),
-      field("Button links (Label | URL | button?, one per line — no URL = not shown; add “| button” for the animated pill)", textArea(linksValue, 2, "Open CricPredAI | https://example.com | button", (value) => {
-        item.links = value
-          .split("\n")
-          .map((line) => {
-            if (!line.trim()) return null;
-            const parts = line.split("|").map((part) => part.trim());
-            const label = parts[0];
-            if (!label) return null;
-            const styled = parts.length > 2 && /^button$/i.test(parts[parts.length - 1]);
-            const url = (styled ? parts.slice(1, -1) : parts.slice(1)).join("|").trim();
-            const link = { label: label, url: url };
-            if (styled) link.style = "button";
-            return link;
-          })
-          .filter(Boolean);
-      }))
+      field(
+        "Links (Label | URL, one per line — no URL = not shown). Group into a dropdown with “Group > Label | URL”, e.g. “Slides > MATLAB | https://…”. Add “| button” for the animated pill.",
+        textArea(linksValue, 3, "Slides > MATLAB basics | https://…\nSlides > QGIS mapping | https://…\nMaterials > Drive folder | https://…", (value) => {
+          item.links = value
+            .split("\n")
+            .map((line) => {
+              if (!line.trim()) return null;
+              const parts = line.split("|").map((part) => part.trim());
+              let label = parts[0];
+              if (!label) return null;
+              let group = "";
+              const arrow = label.indexOf(">");
+              if (arrow > 0) {
+                group = label.slice(0, arrow).trim();
+                label = label.slice(arrow + 1).trim() || group;
+              }
+              const styled = parts.length > 2 && /^button$/i.test(parts[parts.length - 1]);
+              const url = (styled ? parts.slice(1, -1) : parts.slice(1)).join("|").trim();
+              const link = { label: label, url: url };
+              if (group) link.group = group;
+              if (styled) link.style = "button";
+              return link;
+            })
+            .filter(Boolean);
+        })
+      )
     ]);
   }
 

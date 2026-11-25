@@ -237,34 +237,114 @@
 
   /* Button-style links. Any entry without a URL is dropped entirely, so
      nothing shows unless a real link was provided. */
+  function linkAttrs(url) {
+    const external = /^https?:/.test(url);
+    return 'href="' + escapeHtml(url) + '"' + (external ? ' target="_blank" rel="noreferrer"' : "");
+  }
+
+  /* Links that share a group name ("Slides", "Materials") collapse into a
+     dropdown; a group with a single link renders as a plain link named
+     after the group. Ungrouped links render on their own. Order follows
+     each group's first appearance. */
   function renderLinks(links) {
-    const row = (links || [])
+    const entries = [];
+    const groups = new Map();
+    (links || [])
       .filter((link) => link && link.url)
-      .map((link) => {
-        const external = /^https?:/.test(link.url);
-        const attrs = 'href="' + escapeHtml(link.url) + '"' + (external ? ' target="_blank" rel="noreferrer"' : "");
-        const label = escapeHtml(link.label);
-
-        if (link.style === "button") {
-          return (
-            '<a class="hover-button" ' + attrs + ">" +
-            '<span class="hb-label">' + label + "</span>" +
-            '<span class="hb-reveal" aria-hidden="true">' + label +
-            ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>' +
-            '<span class="hb-dot" aria-hidden="true"></span>' +
-            "</a>"
-          );
+      .forEach((link) => {
+        if (!link.group) {
+          entries.push({ link: link });
+          return;
         }
+        if (!groups.has(link.group)) {
+          const group = { name: link.group, links: [] };
+          groups.set(link.group, group);
+          entries.push({ group: group });
+        }
+        groups.get(link.group).links.push(link);
+      });
 
+    const row = entries
+      .map((entry) => {
+        if (!entry.group) return renderSingleLink(entry.link);
+        const group = entry.group;
+        if (group.links.length === 1) {
+          return renderSingleLink({ label: group.name, url: group.links[0].url });
+        }
         return (
-          "<a class=\"action-link\" " + attrs + ">" +
-          label +
-          (external ? '<span class="ext" aria-hidden="true">&#8599;</span>' : "") +
-          "</a>"
+          '<div class="link-menu">' +
+          '<button class="action-link link-menu-trigger" type="button" aria-haspopup="true" aria-expanded="false">' +
+          escapeHtml(group.name) +
+          '<span class="link-menu-chevron" aria-hidden="true"></span></button>' +
+          '<div class="link-menu-panel" role="menu">' +
+          group.links
+            .map(
+              (link) =>
+                '<a role="menuitem" ' + linkAttrs(link.url) + ">" +
+                "<span>" + escapeHtml(link.label) + "</span>" +
+                '<span class="ext" aria-hidden="true">&#8599;</span></a>'
+            )
+            .join("") +
+          "</div></div>"
         );
       })
-      .join("");
+      .join('<span class="link-sep" aria-hidden="true">&middot;</span>');
     return row ? '<div class="link-row">' + row + "</div>" : "";
+  }
+
+  function renderSingleLink(link) {
+    const external = /^https?:/.test(link.url);
+    const attrs = linkAttrs(link.url);
+    const label = escapeHtml(link.label);
+
+    if (link.style === "button") {
+      return (
+        '<a class="hover-button" ' + attrs + ">" +
+        '<span class="hb-label">' + label + "</span>" +
+        '<span class="hb-reveal" aria-hidden="true">' + label +
+        ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>' +
+        '<span class="hb-dot" aria-hidden="true"></span>' +
+        "</a>"
+      );
+    }
+
+    return (
+      "<a class=\"action-link\" " + attrs + ">" +
+      label +
+      (external ? '<span class="ext" aria-hidden="true">&#8599;</span>' : "") +
+      "</a>"
+    );
+  }
+
+  /* Dropdown behaviour: hover opens on pointer devices (CSS); click/tap
+     toggles everywhere; outside click or Escape closes. Delegated so it
+     works for content hydrated after load. */
+  function setupLinkMenus() {
+    const closeAll = (except) => {
+      document.querySelectorAll(".link-menu.open").forEach((menu) => {
+        if (menu === except) return;
+        menu.classList.remove("open");
+        const trigger = menu.querySelector(".link-menu-trigger");
+        if (trigger) trigger.setAttribute("aria-expanded", "false");
+      });
+    };
+
+    document.addEventListener("click", (event) => {
+      const trigger = event.target.closest(".link-menu-trigger");
+      if (trigger) {
+        const menu = trigger.closest(".link-menu");
+        const open = !menu.classList.contains("open");
+        closeAll(menu);
+        menu.classList.toggle("open", open);
+        trigger.setAttribute("aria-expanded", String(open));
+        return;
+      }
+      if (!event.target.closest(".link-menu")) closeAll(null);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeAll(null);
+    });
   }
 
   function renderPageItem(item) {
@@ -457,6 +537,7 @@
 
   setActiveNav();
   setupNavSwap();
+  setupLinkMenus();
   setupTheme();
   setupMenu();
   setupStagger();
